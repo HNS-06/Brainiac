@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BrainOS AI Playground</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#502b03",
+                      "primary-fixed-dim": "#bec2ff",
+                      "secondary-fixed": "#5cfcca",
+                      "on-tertiary-fixed-variant": "#663d15",
+                      "surface-container-low": "#f2f4f7",
+                      "surface-container-high": "#e6e8eb",
+                      "outline-variant": "#c6c5d5",
+                      "inverse-primary": "#bec2ff",
+                      "surface-variant": "#e0e3e6",
+                      "tertiary-container": "#c89161",
+                      "surface-dim": "#d8dadd",
+                      "tertiary-fixed-dim": "#f6ba87",
+                      "on-secondary": "#ffffff",
+                      "primary-container": "#8b93ff",
+                      "surface-bright": "#f7f9fc",
+                      "tertiary-fixed": "#ffdcc1",
+                      "tertiary": "#82542a",
+                      "surface-container-highest": "#e0e3e6",
+                      "on-secondary-fixed-variant": "#00513d",
+                      "inverse-surface": "#2d3133",
+                      "on-surface-variant": "#464652",
+                      "on-primary": "#ffffff",
+                      "background": "#f7f9fc",
+                      "surface-tint": "#4b53bb",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#767684",
+                      "on-tertiary-fixed": "#2e1500",
+                      "on-surface": "#191c1e",
+                      "on-primary-container": "#1d238f",
+                      "surface": "#f7f9fc",
+                      "on-tertiary": "#ffffff",
+                      "surface-container": "#eceef1",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "inverse-on-surface": "#eff1f4",
+                      "on-primary-fixed-variant": "#3239a2",
+                      "secondary-container": "#58f9c8",
+                      "on-secondary-container": "#007055",
+                      "on-primary-fixed": "#00016d",
+                      "primary": "#4b53bb",
+                      "on-secondary-fixed": "#002117",
+                      "error-container": "#ffdad6",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#34dfaf",
+                      "secondary": "#006c52",
+                      "primary-fixed": "#e0e0ff",
+                      "on-background": "#191c1e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "md": "16px",
+                      "xl": "48px",
+                      "gutter": "24px",
+                      "sm": "8px",
+                      "margin": "32px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "label-bold": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "h3": ["Plus Jakarta Sans"],
+                      "body-md": ["Inter"],
+                      "h2": ["Plus Jakarta Sans"],
+                      "h1": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                      "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .neumorphic-flat {
+            background: #f7f9fc;
+            box-shadow: -8px -8px 16px #ffffff, 8px 8px 16px #d1d9e6;
+        }
+        .neumorphic-inset {
+            background: #f7f9fc;
+            box-shadow: inset -4px -4px 8px #ffffff, inset 4px 4px 8px #d1d9e6;
+        }
+        .neumorphic-button {
+            background: #f7f9fc;
+            box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px #d1d9e6;
+            transition: all 0.2s ease;
+        }
+        .neumorphic-button:active {
+            box-shadow: inset -2px -2px 5px #ffffff, inset 2px 2px 5px #d1d9e6;
+            transform: scale(0.98);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .syntax-keyword { color: #8B93FF; font-weight: 600; }
+        .syntax-string { color: #006c52; }
+        .syntax-variable { color: #82542a; }
+        .syntax-comment { color: #767684; font-style: italic; }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#8B93FF] tracking-tight font-['Plus_Jakarta_Sans']">BrainOS</span>
+<div class="hidden md:flex items-center gap-6">
+<nav class="flex gap-6 items-center">
+<a class="text-slate-500 font-['Plus_Jakarta_Sans'] font-medium hover:bg-white/40 transition-colors px-3 py-1 rounded-lg" href="/">Home</a>
+<a class="text-[#8B93FF] font-bold font-['Plus_Jakarta_Sans'] font-medium px-3 py-1 rounded-lg" href="/playground">Playground</a>
+<a class="text-slate-500 font-['Plus_Jakarta_Sans'] font-medium hover:bg-white/40 transition-colors px-3 py-1 rounded-lg" href="/insights">Documentation</a>
+</nav>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="neumorphic-inset px-4 py-2 rounded-full flex items-center gap-2 w-64">
+<span class="material-symbols-outlined text-outline text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full outline-none" placeholder="Search clusters..." type="text"/>
+</div>
+<button class="p-2 rounded-full hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined text-outline" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-2 pl-2 border-l border-white/20">
+<span class="material-symbols-outlined text-[#8B93FF]" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col py-6 z-50 bg-white/65 backdrop-blur-[30px] shadow-[4px_0_24px_rgba(0,0,0,0.03)] border-r border-white/20">
+<div class="px-6 mb-10 mt-12">
+<h2 class="text-lg font-black text-[#8B93FF] font-['Plus_Jakarta_Sans']">My Brain</h2>
+<p class="text-xs text-slate-500 font-['Plus_Jakarta_Sans']">External Cortex</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/timeline">
+<span class="material-symbols-outlined text-xl" data-icon="history">history</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Memory Timeline</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/clusters">
+<span class="material-symbols-outlined text-xl" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Clusters</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/agents">
+<span class="material-symbols-outlined text-xl" data-icon="smart_toy">smart_toy</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">AI Hub</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF] group" href="/playground">
+<span class="material-symbols-outlined text-xl" data-icon="science">science</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Playground</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/sources">
+<span class="material-symbols-outlined text-xl" data-icon="hub">hub</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Sources</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/insights">
+<span class="material-symbols-outlined text-xl" data-icon="insights">insights</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Insights</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/versions">
+<span class="material-symbols-outlined text-xl" data-icon="work_history">work_history</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">History</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 group" href="/privacy">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 rounded-xl bg-[#8B93FF] text-white font-bold text-xs shadow-lg shadow-[#8B93FF]/20 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="upgrade">upgrade</span>
+                Upgrade Storage
+            </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 pt-16 h-screen flex flex-col">
+<!-- Header Info -->
+<div class="px-gutter py-md flex justify-between items-end">
+<div>
+<h1 class="font-h1 text-h1 text-on-surface">Prompt Lab</h1>
+<p class="text-on-surface-variant font-body-md mt-1">Iterate and refine prompts against your personal knowledge base.</p>
+</div>
+<div class="flex gap-4">
+<button class="neumorphic-button px-6 py-3 rounded-full flex items-center gap-2 text-primary font-label-bold">
+<span class="material-symbols-outlined text-lg" data-icon="save">save</span>
+                    Save Draft
+                </button>
+<button class="bg-[#8B93FF] text-white px-8 py-3 rounded-full font-label-bold flex items-center gap-2 shadow-lg shadow-[#8B93FF]/30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg" data-icon="play_arrow">play_arrow</span>
+                    Run Prompt
+                </button>
+</div>
+</div>
+<!-- Playground Grid -->
+<div class="flex-1 px-gutter pb-gutter grid grid-cols-12 gap-gutter overflow-hidden">
+<!-- Left Panel: Input & Config -->
+<section class="col-span-5 flex flex-col gap-gutter overflow-y-auto pr-2">
+<!-- Dataset Selection -->
+<div class="neumorphic-flat rounded-[24px] p-6">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="database">database</span>
+</div>
+<h3 class="font-h3 text-h3">Knowledge Context</h3>
+</div>
+<div class="space-y-3">
+<label class="block">
+<span class="text-xs font-label-bold text-outline uppercase mb-2 block">Select Memory Clusters</span>
+<div class="grid grid-cols-2 gap-3">
+<button class="neumorphic-inset p-3 rounded-xl flex items-center gap-3 text-left border-2 border-[#8B93FF]">
+<span class="material-symbols-outlined text-[#8B93FF]" data-icon="check_circle" data-weight="fill">check_circle</span>
+<span class="text-sm font-medium">Research 2024</span>
+</button>
+<button class="neumorphic-flat p-3 rounded-xl flex items-center gap-3 text-left">
+<span class="material-symbols-outlined text-outline" data-icon="circle">circle</span>
+<span class="text-sm font-medium">Personal Logs</span>
+</button>
+<button class="neumorphic-flat p-3 rounded-xl flex items-center gap-3 text-left">
+<span class="material-symbols-outlined text-outline" data-icon="circle">circle</span>
+<span class="text-sm font-medium">Project BrainOS</span>
+</button>
+<button class="neumorphic-inset p-3 rounded-xl flex items-center gap-3 text-left border-2 border-[#8B93FF]">
+<span class="material-symbols-outlined text-[#8B93FF]" data-icon="check_circle" data-weight="fill">check_circle</span>
+<span class="text-sm font-medium">Technical Wiki</span>
+</button>
+</div>
+</label>
+</div>
+</div>
+<!-- Prompt Editor -->
+<div class="neumorphic-flat rounded-[24px] p-6 flex-1 flex flex-col">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-white" data-icon="terminal">terminal</span>
+</div>
+<h3 class="font-h3 text-h3">Prompt Syntax</h3>
+</div>
+<span class="text-xs bg-surface-container-high px-2 py-1 rounded text-outline font-mono">GPT-4-Turbo</span>
+</div>
+<div class="neumorphic-inset rounded-2xl flex-1 p-4 font-mono text-sm relative overflow-hidden">
+<div class="absolute top-4 left-4 text-slate-300 select-none pointer-events-none">
+                            1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10
+                        </div>
+<div class="ml-8 outline-none whitespace-pre-wrap">
+<span class="syntax-comment">// Extract key insights from selected clusters</span>
+<span class="syntax-keyword">SET</span> <span class="syntax-variable">context</span> = <span class="syntax-string">@research_2024</span>;
+<span class="syntax-keyword">SET</span> <span class="syntax-variable">format</span> = <span class="syntax-string">"JSON"</span>;
+
+<span class="syntax-keyword">PROMPT</span> {
+  <span class="syntax-string">"Analyze the relationship between neuromorphic UI
+  and user cognitive load. Identify patterns in 
+  interaction latency."</span>
+}
+
+<span class="syntax-keyword">OUTPUT</span> <span class="syntax-variable">as</span> <span class="syntax-keyword">STRUCTURED_DATA</span>;</div>
+<div class="absolute bottom-4 right-4 animate-pulse">
+<div class="w-1 h-5 bg-[#8B93FF]"></div>
+</div>
+</div>
+<div class="mt-4 flex gap-4">
+<button class="text-xs font-label-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span> Insert Variable
+                        </button>
+<button class="text-xs font-label-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="history">history</span> Version History
+                        </button>
+</div>
+</div>
+</section>
+<!-- Right Panel: Output -->
+<section class="col-span-7 flex flex-col h-full overflow-hidden">
+<div class="neumorphic-flat rounded-[24px] h-full flex flex-col overflow-hidden">
+<div class="glass-panel px-6 py-4 flex items-center justify-between border-b border-white/20">
+<div class="flex items-center gap-4">
+<button class="px-4 py-2 rounded-lg bg-[#8B93FF] text-white text-xs font-bold">Structured JSON</button>
+<button class="px-4 py-2 rounded-lg hover:bg-surface-container-high text-xs font-bold transition-colors">Markdown</button>
+<button class="px-4 py-2 rounded-lg hover:bg-surface-container-high text-xs font-bold transition-colors">Raw Logs</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg hover:bg-white/40"><span class="material-symbols-outlined text-outline text-lg" data-icon="content_copy">content_copy</span></button>
+<button class="p-2 rounded-lg hover:bg-white/40"><span class="material-symbols-outlined text-outline text-lg" data-icon="share">share</span></button>
+</div>
+</div>
+<!-- Scrollable Response Area -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8">
+<!-- AI Response Metadata -->
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-slate-200">
+<img alt="AI Agent Icon" data-alt="A clean, minimalist 3D rendering of a spherical AI assistant robot with a glowing lavender lens. The background is a soft, out-of-focus laboratory setting with pastel blue and white tones. The lighting is high-key and optimistic, following a modern tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuOpHajPdJ1FygeRZfE_c_2aWsvpnFtQYL84q2S4h4mxlUOX7MbZLDtijmNnb_-CHFW3EHAlIguSKoN4IwxBbgvu9PeoIS6_6QzUzZvD0S7sJNvOOJx2pQy1YgStc-uXFm38_VyJikAdFzL03CdI68Z24aZYXMu2d68GiuQtiPuHTz_kJReXuoJG14ChGZC3icHgJylyF85jGm91dtFGkOirb4jkoUX3nffArFf_Iu_d_e9Qpy7_k3gVhzf7KbcSj01ljSxikoe_yW"/>
+</div>
+</div>
+<div>
+<h4 class="text-xs font-label-bold text-on-surface">Cortex-V4 Analysis Complete</h4>
+<p class="text-[10px] text-outline">Latencies: 450ms • Tokens: 1,240 • Confidence: 98.4%</p>
+</div>
+</div>
+<!-- JSON Output Simulation -->
+<div class="glass-panel rounded-2xl p-6 font-mono text-sm leading-relaxed border-l-4 border-[#8B93FF]">
+<pre class="text-on-surface-variant overflow-x-auto">{
+  <span class="syntax-keyword">"analysis_id"</span>: <span class="syntax-string">"BOS-992-X"</span>,
+  <span class="syntax-keyword">"summary"</span>: <span class="syntax-string">"Neuromorphic UI reduces cognitive load by 22%..."</span>,
+  <span class="syntax-keyword">"key_findings"</span>: [
+    {
+      <span class="syntax-keyword">"category"</span>: <span class="syntax-string">"Tactile Feedback"</span>,
+      <span class="syntax-keyword">"impact"</span>: <span class="syntax-string">"High"</span>,
+      <span class="syntax-keyword">"evidence"</span>: <span class="syntax-string">"Found in 14 research papers in @research_2024"</span>
+    },
+    {
+      <span class="syntax-keyword">"category"</span>: <span class="syntax-string">"Shadow Depth"</span>,
+      <span class="syntax-keyword">"impact"</span>: <span class="syntax-string">"Medium"</span>,
+      <span class="syntax-keyword">"evidence"</span>: <span class="syntax-string">"User retention increased by 12% during A/B tests"</span>
+    }
+  ],
+  <span class="syntax-keyword">"suggested_actions"</span>: [
+    <span class="syntax-string">"Implement variable shadow blurs based on item priority"</span>,
+    <span class="syntax-string">"Update the Playground component to use Glassmorphism"</span>
+  ]
+}</pre>
+</div>
+<!-- Visualization Widget -->
+<div class="grid grid-cols-3 gap-4">
+<div class="neumorphic-flat p-4 rounded-2xl text-center">
+<span class="text-xs font-label-bold text-outline block mb-1">COGNITIVE LOAD</span>
+<span class="text-2xl font-black text-primary">-22%</span>
+</div>
+<div class="neumorphic-flat p-4 rounded-2xl text-center">
+<span class="text-xs font-label-bold text-outline block mb-1">ENGAGEMENT</span>
+<span class="text-2xl font-black text-secondary-container text-secondary">+34%</span>
+</div>
+<div class="neumorphic-flat p-4 rounded-2xl text-center">
+<span class="text-xs font-label-bold text-outline block mb-1">LATENCY</span>
+<span class="text-2xl font-black text-tertiary-container text-tertiary">14ms</span>
+</div>
+</div>
+<!-- Insight Card -->
+<div class="bg-gradient-to-br from-[#8B93FF]/10 to-[#58f9c8]/10 rounded-3xl p-6 border border-white/40">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-[#8B93FF]" data-icon="lightbulb" data-weight="fill">lightbulb</span>
+<div>
+<h4 class="font-bold text-sm mb-1">New Connection Identified</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Your Research 2024 cluster shares a 76% semantic similarity with "Project BrainOS Architecture". Would you like to merge these insights?</p>
+<div class="mt-4 flex gap-3">
+<button class="bg-white text-xs font-bold px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-all">Merge Clusters</button>
+<button class="text-xs font-bold px-4 py-2 rounded-full border border-[#8B93FF]/20">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Action Bar (Contextual) -->
+<div class="p-6 bg-surface-container-low border-t border-white/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="auto_fix_high">auto_fix_high</span>
+<span class="text-xs font-medium text-outline">AI is refining this output...</span>
+</div>
+<div class="flex gap-3">
+<button class="neumorphic-button p-2 rounded-lg text-outline"><span class="material-symbols-outlined text-lg" data-icon="thumb_up">thumb_up</span></button>
+<button class="neumorphic-button p-2 rounded-lg text-outline"><span class="material-symbols-outlined text-lg" data-icon="thumb_down">thumb_down</span></button>
+<button class="neumorphic-button px-4 py-2 rounded-lg text-primary text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="sync">sync</span>
+                                Regenerate
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB (Suppressed based on context, but added for Playground specific quick-action) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-[#8B93FF] text-white flex items-center justify-center shadow-xl shadow-[#8B93FF]/40 hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="smart_toy">smart_toy</span>
+</button>
+</body></html>

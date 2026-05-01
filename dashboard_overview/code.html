@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BrainOS Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .neumorphic-card {
+            box-shadow: -8px -8px 16px rgba(255, 255, 255, 1), 8px 8px 16px rgba(186, 199, 213, 0.5);
+            background: #f7f9fc;
+        }
+        .neumorphic-inset {
+            box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.8), inset 4px 4px 8px rgba(186, 199, 213, 0.4);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #8B93FF;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#58f9c8",
+                        "background": "#f7f9fc",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "tertiary-fixed-dim": "#f6ba87",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f7f9fc",
+                        "surface-dim": "#d8dadd",
+                        "inverse-primary": "#bec2ff",
+                        "surface-container": "#eceef1",
+                        "on-secondary-container": "#007055",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary": "#4b53bb",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#bec2ff",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f4",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#1d238f",
+                        "primary-fixed": "#e0e0ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "secondary-fixed-dim": "#34dfaf",
+                        "outline-variant": "#c6c5d5",
+                        "on-primary-fixed-variant": "#3239a2",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-secondary-fixed": "#002117",
+                        "on-surface-variant": "#464652",
+                        "on-primary-fixed": "#00016d",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-bright": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#767684",
+                        "on-tertiary-container": "#502b03",
+                        "secondary-fixed": "#5cfcca",
+                        "surface-container-high": "#e6e8eb",
+                        "on-tertiary-fixed-variant": "#663d15",
+                        "secondary": "#006c52",
+                        "primary-container": "#8b93ff",
+                        "surface-tint": "#4b53bb",
+                        "on-surface": "#191c1e",
+                        "tertiary": "#82542a",
+                        "surface-container-highest": "#e0e3e6",
+                        "tertiary-container": "#c89161",
+                        "surface-variant": "#e0e3e6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "48px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "margin": "32px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "label-bold": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface overflow-x-hidden selection:bg-primary/20">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-8">
+<div class="text-xl font-bold text-[#8B93FF] tracking-tight font-['Plus_Jakarta_Sans']">BrainOS</div>
+<div class="hidden md:flex items-center neumorphic-inset rounded-full px-4 py-1.5 w-64 bg-surface-container-low border border-white/40">
+<span class="material-symbols-outlined text-slate-400 text-lg mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full p-0" placeholder="Search your mind..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white px-4 py-2 rounded-xl text-sm font-label-bold flex items-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add New
+            </button>
+<div class="flex items-center gap-2 border-l border-slate-200 ml-2 pl-4">
+<button class="p-2 rounded-lg text-slate-500 hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-[#8B93FF]/20 flex items-center justify-center text-[#8B93FF] cursor-pointer">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 z-50 w-64 bg-white/65 backdrop-blur-[30px] shadow-[4px_0_24px_rgba(0,0,0,0.03)] hidden md:flex">
+<div class="px-6 mb-8 mt-12">
+<h2 class="text-lg font-black text-[#8B93FF] leading-tight">My Brain</h2>
+<p class="text-xs text-slate-500">External Cortex</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<!-- Active Tab: Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF] transition-all duration-300" href="/">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-['Plus_Jakarta_Sans']">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#8B93FF] hover:bg-[#8B93FF]/5 transition-all duration-300" href="/library">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-sm font-['Plus_Jakarta_Sans']">Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#8B93FF] hover:bg-[#8B93FF]/5 transition-all duration-300" href="/sources">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+<span class="text-sm font-['Plus_Jakarta_Sans']">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#8B93FF] hover:bg-[#8B93FF]/5 transition-all duration-300" href="/graph">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="text-sm font-['Plus_Jakarta_Sans']">Knowledge Graph</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#8B93FF] hover:bg-[#8B93FF]/5 transition-all duration-300" href="/insights">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="text-sm font-['Plus_Jakarta_Sans']">Insights</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:text-[#8B93FF] hover:bg-[#8B93FF]/5 transition-all duration-300" href="/agents">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="text-sm font-['Plus_Jakarta_Sans']">AI Agents</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<div class="p-4 rounded-2xl bg-primary-fixed text-on-primary-fixed-variant">
+<p class="text-xs font-bold mb-2">92% Storage Used</p>
+<div class="w-full h-1.5 bg-white/30 rounded-full overflow-hidden mb-4">
+<div class="w-[92%] h-full bg-primary shadow-sm"></div>
+</div>
+<button class="w-full py-2 bg-white text-primary text-xs font-bold rounded-lg shadow-sm hover:scale-[1.02] transition-transform">
+                    Upgrade Storage
+                </button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 px-6 pb-12">
+<div class="max-w-7xl mx-auto">
+<!-- Welcome Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div>
+<h1 class="font-h1 text-h1 text-on-surface">Good Morning, Alex.</h1>
+<p class="text-body-lg text-outline mt-2">Your external brain is synchronized and ready for thinking.</p>
+</div>
+<div class="flex gap-3">
+<div class="neumorphic-card rounded-2xl px-5 py-3 flex items-center gap-3 border border-white/50">
+<div class="p-2 rounded-xl bg-secondary-container/20 text-on-secondary-container">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-wider font-bold text-outline">Neural Focus</p>
+<p class="font-h3 text-sm">Deep Work</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Daily Insights Section (6 columns) -->
+<section class="md:col-span-8 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h2 class="font-h2 text-h2 flex items-center gap-2">
+<span class="p-1.5 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+</span>
+                            Daily Insights
+                        </h2>
+<button class="text-sm font-label-bold text-primary hover:underline">View All Report</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Widget 1: Focus Score -->
+<div class="neumorphic-card rounded-[24px] p-6 border border-white/60 relative overflow-hidden">
+<div class="absolute -top-4 -right-4 w-24 h-24 bg-[#8B93FF]/5 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-10 h-10 rounded-xl bg-[#8B93FF]/10 flex items-center justify-center text-[#8B93FF]">
+<span class="material-symbols-outlined">track_changes</span>
+</div>
+<span class="text-xs font-bold text-secondary px-2 py-1 bg-secondary-container/20 rounded-lg">+12%</span>
+</div>
+<h3 class="text-h3 mb-1">Focus Score</h3>
+<p class="text-sm text-outline mb-4">Quality of neural connections today</p>
+<div class="flex items-end gap-1 h-12">
+<div class="w-full bg-primary/20 rounded-t-md h-[40%]"></div>
+<div class="w-full bg-primary/20 rounded-t-md h-[60%]"></div>
+<div class="w-full bg-primary/20 rounded-t-md h-[45%]"></div>
+<div class="w-full bg-primary/20 rounded-t-md h-[80%]"></div>
+<div class="w-full bg-primary/20 rounded-t-md h-[90%]"></div>
+<div class="w-full bg-primary rounded-t-md h-full"></div>
+<div class="w-full bg-primary/20 rounded-t-md h-[70%]"></div>
+</div>
+</div>
+<!-- Widget 2: Knowledge Gaps -->
+<div class="neumorphic-card rounded-[24px] p-6 border border-white/60">
+<div class="flex justify-between items-start mb-6">
+<div class="w-10 h-10 rounded-xl bg-tertiary-container/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+</div>
+<h3 class="text-h3 mb-1">Synthesis Alert</h3>
+<p class="text-sm text-outline mb-4">3 concepts in "Quantum Computing" need bridging.</p>
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Microscopic 3D rendering of glowing neural networks and nodes interconnected by thin light filaments, representing advanced biological or digital synapses." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGPGLhGUNs1fOsySzTW6FF-FH408ixGlJB6UiGlby6j6yjonH6KWm98YYhcRd9MejUqaonn_www5xbLs0M02AOYEy0Ge-T5w3unKDeIrs4ql6ntyReMjrMvjFzVCtFxSM9Z5Qoe9k__v23QSNC5y2NY8ZaxbAm8ngE3SJl03aQTcX-dvpgWXsAC8nYm_DNzVkAnjzmk1ys2I4n1ZVYvSuHY_X4QjwFqF1A4xJOYIVi5QZhgZ4I--Zst7T05rlH5Jhxh18ye4pX6YwO"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Vibrant abstract 3D fluid motion graphics with soft purple and cyan gradients, representing digital fluid energy in a modern tech workspace environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2CevIhSnviKTp-_G5FsdYWyqBlBRkEMdWruR4QQ65wYp-7GlYpDqDvyqEJnh4wA-1-6uIMC67IxYo--HASEZJnRgL5Q3K56sZeWuSb5BYKyI_LQwk-G6fLOnq7NhlFHVduItUFZPs9PniitAUvh3YRALWkxXBDssD0SnIWMGYC6etfnJMfFNRoN5VS4YcLmL--65Dw9i0IUL7FU-XYgxXOeXXGmYDYfs4FEGkq4zaSgIpn4kLevd7vQ28Vvu9Le3A_Mjq60jRJRKa"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-[#8B93FF] flex items-center justify-center text-[10px] text-white font-bold">
+                                    +1
+                                </div>
+</div>
+</div>
+</div>
+<!-- Memory Heatmap (Activity Visualization) -->
+<div class="neumorphic-card rounded-[32px] p-8 border border-white/60">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="font-h3 text-xl">Memory Heatmap</h3>
+<p class="text-sm text-outline">Activity distribution across your semantic network</p>
+</div>
+<div class="flex gap-2 p-1 neumorphic-inset rounded-xl bg-surface-container-low">
+<button class="px-3 py-1 text-xs font-bold bg-white shadow-sm rounded-lg text-primary">Week</button>
+<button class="px-3 py-1 text-xs font-bold text-outline">Month</button>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="grid grid-cols-12 gap-3">
+<!-- Simulated Heatmap Tiles -->
+<div class="aspect-square rounded-xl bg-primary/5"></div>
+<div class="aspect-square rounded-xl bg-primary/20"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/40"></div>
+<div class="aspect-square rounded-xl bg-primary/5"></div>
+<div class="aspect-square rounded-xl bg-primary/60"></div>
+<div class="aspect-square rounded-xl bg-primary/20"></div>
+<div class="aspect-square rounded-xl bg-primary/5"></div>
+<div class="aspect-square rounded-xl bg-primary/80"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/30"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/50"></div>
+<div class="aspect-square rounded-xl bg-primary/5"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/90"></div>
+<div class="aspect-square rounded-xl bg-primary/20"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/5"></div>
+<div class="aspect-square rounded-xl bg-primary/20"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/40"></div>
+<div class="aspect-square rounded-xl bg-primary/5"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/20"></div>
+<div class="aspect-square rounded-xl bg-primary/5"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/70"></div>
+<div class="aspect-square rounded-xl bg-primary/20"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+<div class="aspect-square rounded-xl bg-primary/50"></div>
+<div class="aspect-square rounded-xl bg-primary/10"></div>
+</div>
+<div class="flex justify-between items-center mt-4">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-sm bg-primary/5"></div>
+<span class="text-[10px] text-outline">Dormant</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-sm bg-primary"></div>
+<span class="text-[10px] text-outline">High Activity</span>
+</div>
+</div>
+<p class="text-[11px] font-bold text-primary">42 New connections synthesized today</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Smart Suggestions Panel (4 columns) -->
+<aside class="md:col-span-4 flex flex-col gap-6">
+<div class="glass-panel rounded-[32px] p-6 border border-white/60 flex flex-col h-full shadow-lg">
+<div class="flex items-center gap-3 mb-8">
+<div class="p-2.5 rounded-2xl bg-gradient-to-br from-[#8B93FF] to-[#58f9c8] text-white shadow-md">
+<span class="material-symbols-outlined text-xl">temp_preferences_custom</span>
+</div>
+<h2 class="font-h3 text-xl">Smart Suggestions</h2>
+</div>
+<div class="space-y-6">
+<div>
+<h4 class="text-xs font-bold text-outline uppercase tracking-widest mb-4">You might want to revisit...</h4>
+<div class="space-y-4">
+<!-- Suggestion Item 1 -->
+<div class="group cursor-pointer p-4 rounded-2xl bg-white/40 border border-white/60 hover:bg-white/80 transition-all">
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-xl bg-white neumorphic-card flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div>
+<p class="font-bold text-sm">Neural Networks Part II</p>
+<p class="text-xs text-outline">Last viewed 4 days ago • High relevance</p>
+</div>
+</div>
+</div>
+<!-- Suggestion Item 2 -->
+<div class="group cursor-pointer p-4 rounded-2xl bg-white/40 border border-white/60 hover:bg-white/80 transition-all">
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-xl bg-white neumorphic-card flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+</div>
+<div>
+<p class="font-bold text-sm">Interconnected Startups</p>
+<p class="text-xs text-outline">Found 3 new linked documents</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h4 class="text-xs font-bold text-outline uppercase tracking-widest mb-4">Neural Maintenance</h4>
+<div class="neumorphic-inset rounded-2xl p-5 bg-surface-container-low/50">
+<div class="flex items-center justify-between mb-3">
+<span class="text-sm font-bold">Concept Pruning</span>
+<span class="text-xs font-bold text-primary px-2 py-0.5 bg-primary/10 rounded-full">Ready</span>
+</div>
+<p class="text-xs text-outline leading-relaxed mb-4">Archive 12 outdated notes from the "Legacy Project" to free up cognitive space.</p>
+<button class="w-full py-2.5 bg-white border border-[#8B93FF]/30 text-[#8B93FF] text-xs font-bold rounded-xl hover:bg-primary hover:text-white transition-all shadow-sm active:scale-95">
+                                        Execute Clean-up
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Micro-illustration Area -->
+<div class="mt-auto pt-8 flex justify-center">
+<div class="relative w-48 h-48">
+<!-- Subtle soft-cartoon brain graphic -->
+<svg class="w-full h-full drop-shadow-xl" viewbox="0 0 200 200">
+<path d="M40,100c0-33.1,26.9-60,60-60s60,26.9,60,60s-26.9,60-60,60S40,133.1,40,100z" fill="#8B93FF" fill-opacity="0.1"></path>
+<circle cx="100" cy="100" fill="url(#grad1)" fill-opacity="0.2" r="50"></circle>
+<path d="M70,80 Q100,60 130,80 Q150,100 130,120 Q100,140 70,120 Q50,100 70,80" fill="none" stroke="#8B93FF" stroke-dasharray="10 5" stroke-linecap="round" stroke-width="4"></path>
+<circle cx="100" cy="100" fill="#8B93FF" r="10"></circle>
+<defs>
+<lineargradient id="grad1" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#8B93FF;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#5cfcca;stop-opacity:1"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-[#8B93FF] text-4xl animate-pulse">psychology</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Recent Activity / Floating Knowledge Tiles -->
+<div class="mt-12">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">history</span>
+<h2 class="font-h3">Recent Memory Sync</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="neumorphic-card rounded-2xl p-4 border border-white/60 hover:-translate-y-1 transition-transform cursor-pointer">
+<div class="w-full h-32 rounded-xl mb-4 overflow-hidden bg-slate-100">
+<img class="w-full h-full object-cover" data-alt="A lush, ethereal digital landscape with floating crystalline structures and bioluminescent plants in shades of lavender and mint green. The style is soft-edged 3D surrealism with a clean, high-key lighting setup suitable for a premium tech product aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB8EqEPoUZoqt3T18jjTYvyawSKUTe-bCShrVTZdScBnn7GvMXs-_ja64lVUBCJyOERoNzxnxljEunihgR8IRJK2q0XCXkjJc26LhOLUCdhpiyimefpyAvTpCmTq5k_WF3m-L95y0JfwNCnwndElxoV1-UHieJjNQHJLVzUEbY28jxn79sLM8Bdpybn-RWPRvyqnyJ9quRtqqPHUOfwPO8nXTeQqLp2mM9LieJLgtCrFf89CVnNv3ctKJJkVWHfRw5wrCcrRTPbmHt"/>
+</div>
+<p class="text-xs font-bold text-primary mb-1">Visual Log</p>
+<h4 class="font-bold text-sm">Design System References</h4>
+<p class="text-[10px] text-outline">Synced 2m ago</p>
+</div>
+<div class="neumorphic-card rounded-2xl p-4 border border-white/60 hover:-translate-y-1 transition-transform cursor-pointer">
+<div class="w-full h-32 rounded-xl mb-4 overflow-hidden bg-slate-100">
+<img class="w-full h-full object-cover" data-alt="Abstract dynamic flow of pastel colored ribbons weaving through a pristine white 3D space. The aesthetic features soft shadows, smooth surfaces, and a bright optimistic mood with dominant lavender and soft turquoise accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCcq3beoFZvRWvNIRxGzhhHEYnR73lY_6DC0S3ZQnTZX8PLHs8hX1uLM9GeNZahY_uT5uHpD-lcD1dLO84tkoe6InfIYjJefN-lbtyrOkvvA5OdWKOuFuw9Tw8pPPQGKs8VcByKbd7AEGnCfo23bNnvq0B_kwEERdI8c9CaiDAXp_2I2gNVKUUoMwPVyJjuXcm0VbKp4TYfFFLj89fXSerBD-YiF1wmk1JLoQOYWIvU8_5cMSQPKsLAASuxxdaBCGhDcG_GD2Fwr1A"/>
+</div>
+<p class="text-xs font-bold text-secondary mb-1">Concept</p>
+<h4 class="font-bold text-sm">User Flow Optimization</h4>
+<p class="text-[10px] text-outline">Synced 14m ago</p>
+</div>
+<div class="neumorphic-card rounded-2xl p-4 border border-white/60 hover:-translate-y-1 transition-transform cursor-pointer">
+<div class="w-full h-32 rounded-xl mb-4 overflow-hidden bg-slate-100">
+<img class="w-full h-full object-cover" data-alt="Close-up of highly detailed, stylized futuristic circuit patterns rendered in a soft, non-intimidating cartoon style with thick rounded outlines and pastel blue glowing highlights on a neutral light grey background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_hDreKRHr_jU3Ph5yHEvNrnSIunqXEVHwcc2eYs2VSGKKAUqUK4fvS_HHeSBiOFQl3RK5u9VASnvfr81AwfxH44-K1wT9eY1Ev9y-G5kTT30YFCGC3B6KZQfIwH9kr4zCmwAyhstMS1MEIs0wzd5WKX1Nwe8L0jL1d4fquh6EkVdwlQpd_y-V6JXLZayvX2Q1ms9Ht2COm02HbcUWdKwLs2uph59zvmDe_iWjG7ASjWG0v0CUzSOwmvLU9V7k8BwKYJCg6EmX4U5U"/>
+</div>
+<p class="text-xs font-bold text-tertiary mb-1">Tech Stack</p>
+<h4 class="font-bold text-sm">LLM Integration Params</h4>
+<p class="text-[10px] text-outline">Synced 1h ago</p>
+</div>
+<div class="neumorphic-card rounded-2xl p-4 border border-white/60 hover:-translate-y-1 transition-transform cursor-pointer">
+<div class="w-full h-32 rounded-xl mb-4 overflow-hidden bg-slate-100">
+<img class="w-full h-full object-cover" data-alt="Geometric minimalist 3D composition of smooth spheres and tori floating in a bright airy studio. The colors are dominated by muted lavender, peach, and soft teal, creating a sense of organized calm and modern efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5fc8Exa5V4rQWh_ReteC8c7jSxVSMYS1KT96FmlT4xo1Ggtx9kDl8QaQxwFwTnbP07syN6O-oTWzlA9NTUZeym_N5IdHqyuIXxAjHRA8gTdgWBCLk7F0HjdZ1T_uGOSr16Bj1I2hiIeuBzjJfnmqwVOrw4TO_n-bulR_G5GXYMxlzUlthxiF5_kYJ8mvBJg3v-mLkH273NBlR8VLkoCq1S7Dxf7olzZvAIOOWFmVPgbApMlAz8Kc1BBBtyeR3bOVt4jL1W_AfIWwR"/>
+</div>
+<p class="text-xs font-bold text-[#8B93FF] mb-1">Meeting</p>
+<h4 class="font-bold text-sm">Weekly Mind-Sync</h4>
+<p class="text-[10px] text-outline">Synced 3h ago</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB (Floating Action Button) - Rendered only on relevant dashboard/home screens -->
+<button class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-primary text-white shadow-2xl flex items-center justify-center active:scale-95 transition-transform group z-50">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform">add</span>
+</button>
+</body></html>

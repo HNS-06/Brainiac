@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#58f9c8",
+                    "background": "#f7f9fc",
+                    "on-secondary-fixed-variant": "#00513d",
+                    "tertiary-fixed-dim": "#f6ba87",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f7f9fc",
+                    "surface-dim": "#d8dadd",
+                    "inverse-primary": "#bec2ff",
+                    "surface-container": "#eceef1",
+                    "on-secondary-container": "#007055",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary": "#4b53bb",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#bec2ff",
+                    "on-background": "#191c1e",
+                    "inverse-on-surface": "#eff1f4",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#1d238f",
+                    "primary-fixed": "#e0e0ff",
+                    "on-tertiary-fixed": "#2e1500",
+                    "secondary-fixed-dim": "#34dfaf",
+                    "outline-variant": "#c6c5d5",
+                    "on-primary-fixed-variant": "#3239a2",
+                    "tertiary-fixed": "#ffdcc1",
+                    "on-secondary-fixed": "#002117",
+                    "on-surface-variant": "#464652",
+                    "on-primary-fixed": "#00016d",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f2f4f7",
+                    "surface-bright": "#f7f9fc",
+                    "inverse-surface": "#2d3133",
+                    "outline": "#767684",
+                    "on-tertiary-container": "#502b03",
+                    "secondary-fixed": "#5cfcca",
+                    "surface-container-high": "#e6e8eb",
+                    "on-tertiary-fixed-variant": "#663d15",
+                    "secondary": "#006c52",
+                    "primary-container": "#8b93ff",
+                    "surface-tint": "#4b53bb",
+                    "on-surface": "#191c1e",
+                    "tertiary": "#82542a",
+                    "surface-container-highest": "#e0e3e6",
+                    "tertiary-container": "#c89161",
+                    "surface-variant": "#e0e3e6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "48px",
+                    "gutter": "24px",
+                    "lg": "24px",
+                    "margin": "32px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "h3": ["Plus Jakarta Sans"],
+                    "label-bold": ["Inter"],
+                    "h1": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "h2": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                    "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .neumorphic-flat {
+            background: #f7f9fc;
+            box-shadow: -8px -8px 16px #ffffff, 8px 8px 16px #d1d9e6;
+        }
+        .neumorphic-inset {
+            background: #f7f9fc;
+            box-shadow: inset -4px -4px 8px #ffffff, inset 4px 4px 8px #d1d9e6;
+        }
+        .neumorphic-card {
+            background: #f7f9fc;
+            box-shadow: -6px -6px 12px #ffffff, 6px 6px 12px #d1d9e6;
+            border-radius: 24px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .ai-bubble {
+            background: linear-gradient(135deg, #8B93FF 0%, #58f9c8 100%);
+            box-shadow: 0 4px 15px rgba(139, 147, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen overflow-hidden">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-md">
+<span class="text-xl font-bold text-[#8B93FF] tracking-tight font-h3">BrainOS</span>
+<div class="hidden md:flex ml-xl gap-lg">
+<a class="text-[#8B93FF] font-bold font-label-bold" href="/">Dashboard</a>
+<a class="text-slate-500 hover:bg-white/40 transition-colors font-label-bold px-sm py-xs rounded-lg" href="/timeline">Memories</a>
+<a class="text-slate-500 hover:bg-white/40 transition-colors font-label-bold px-sm py-xs rounded-lg" href="/graph">Connections</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="neumorphic-inset px-md py-xs rounded-full flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Search my cortex..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-outline hover:bg-white/40 p-2 rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-outline hover:bg-white/40 p-2 rounded-full transition-colors">account_circle</button>
+</div>
+</nav>
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 z-50 w-64 bg-white/65 backdrop-blur-[30px] border-r border-white/20 shadow-[4px_0_24px_rgba(0,0,0,0.03)] hidden md:flex">
+<div class="px-6 mb-xl mt-12">
+<h2 class="text-lg font-black text-[#8B93FF] font-h2">My Brain</h2>
+<p class="text-xs text-outline font-label-bold uppercase tracking-widest">External Cortex</p>
+</div>
+<nav class="flex-1 space-y-xs px-2">
+<a class="flex items-center gap-md px-4 py-3 bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF] rounded-l-xl" href="/">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-label-bold">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 rounded-xl" href="/library">
+<span class="material-symbols-outlined">description</span>
+<span class="text-sm font-label-bold">Notes</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 rounded-xl" href="/sources">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="text-sm font-label-bold">Documents</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 rounded-xl" href="/graph">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-sm font-label-bold">Knowledge Graph</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 rounded-xl" href="/insights">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-sm font-label-bold">Insights</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300 rounded-xl" href="/privacy">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-label-bold">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<div class="neumorphic-card p-4 bg-primary-container text-white">
+<p class="text-xs font-bold mb-xs">Storage: 85%</p>
+<div class="w-full bg-white/20 h-1 rounded-full mb-md overflow-hidden">
+<div class="bg-secondary-container h-full w-[85%]"></div>
+</div>
+<button class="w-full py-2 bg-white text-primary text-xs font-bold rounded-lg shadow-sm">Upgrade Storage</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:pl-64 pt-16 h-screen flex flex-col md:flex-row bg-background">
+<!-- Left Side: Chat Interface -->
+<section class="flex-1 flex flex-col h-full relative p-lg">
+<div class="flex-1 overflow-y-auto space-y-lg px-md pb-xl custom-scrollbar">
+<!-- System/AI Greeting -->
+<div class="flex flex-col items-center justify-center py-xl space-y-md opacity-60">
+<div class="w-16 h-16 rounded-3xl ai-bubble flex items-center justify-center text-white shadow-xl">
+<span class="material-symbols-outlined text-3xl">psychology</span>
+</div>
+<div class="text-center">
+<h3 class="font-h3 text-h3 text-on-surface">External Cortex Online</h3>
+<p class="font-body-md text-outline">Ask me anything about your documents, notes, or research.</p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex justify-end">
+<div class="max-w-[80%] neumorphic-card px-lg py-md rounded-tr-none">
+<p class="text-on-surface font-body-md">Can you summarize the core principles of "External Brain" theory from my recent notes?</p>
+</div>
+</div>
+<!-- AI Response -->
+<div class="flex justify-start items-start gap-md">
+<div class="w-10 h-10 rounded-xl ai-bubble flex-shrink-0 flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined text-xl">smart_toy</span>
+</div>
+<div class="max-w-[85%] space-y-md">
+<div class="glass-panel p-lg rounded-2xl rounded-tl-none shadow-sm">
+<p class="text-on-surface leading-relaxed">Based on your recent notes and the 4 uploaded PDFs, the core principles of External Brain theory center on **Cognitive Offloading** and **High-Fidelity Retrieval**. Here are the key takeaways:</p>
+<ul class="mt-md space-y-sm list-disc pl-md text-on-surface-variant">
+<li><strong>Semantic Interleaving:</strong> Connecting disparate ideas through automated tagging.</li>
+<li><strong>Spatial Memory:</strong> Using 2D bento layouts to mimic physical workspace organization.</li>
+<li><strong>Persistent Context:</strong> Maintaining a "thread of thought" across multiple sessions.</li>
+</ul>
+</div>
+<div class="flex gap-sm">
+<button class="neumorphic-card px-md py-xs text-xs font-label-bold flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Create Action Plan
+                            </button>
+<button class="neumorphic-card px-md py-xs text-xs font-label-bold flex items-center gap-xs text-outline">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy
+                            </button>
+</div>
+</div>
+</div>
+<!-- Active Typing State -->
+<div class="flex justify-start items-start gap-md">
+<div class="w-10 h-10 rounded-xl ai-bubble flex-shrink-0 flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined text-xl">bolt</span>
+</div>
+<div class="neumorphic-card px-md py-sm flex gap-xs items-center">
+<div class="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"></div>
+<div class="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+<div class="w-1.5 h-1.5 bg-primary/80 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+<span class="text-xs font-label-bold text-outline ml-sm">Connecting sources...</span>
+</div>
+</div>
+</div>
+<!-- Message Input Area -->
+<div class="p-lg bg-background">
+<div class="neumorphic-inset p-md rounded-[32px] flex items-center gap-md">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md resize-none" placeholder="Type your inquiry here..." rows="1"></textarea>
+<button class="w-12 h-12 rounded-full ai-bubble text-white shadow-lg flex items-center justify-center transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-weight="fill">send</span>
+</button>
+</div>
+<p class="text-center text-[10px] text-outline mt-md font-label-bold tracking-tight uppercase">AI can occasionally hallucinate. Verify critical insights with sources in the Context Panel.</p>
+</div>
+</section>
+<!-- Right Side: Context Panel -->
+<aside class="w-full md:w-[400px] bg-surface-container-low border-l border-white/20 flex flex-col p-lg gap-lg overflow-y-auto">
+<div class="flex items-center justify-between">
+<h3 class="font-h3 text-h3 text-on-surface-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">data_exploration</span>
+                    Context Panel
+                </h3>
+<span class="px-sm py-xs bg-primary-container/20 text-primary text-[10px] font-black rounded uppercase">4 Sources Found</span>
+</div>
+<!-- Retrieved Sources Section -->
+<div class="space-y-md">
+<p class="text-xs font-label-bold text-outline uppercase tracking-wider">Top References</p>
+<!-- Source Card 1 -->
+<div class="neumorphic-card p-md group hover:bg-white transition-all">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-lg bg-[#8B93FF]/10 flex items-center justify-center text-[#8B93FF]">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-label-bold text-on-surface">Cognitive Load Theory.pdf</h4>
+<p class="text-xs text-outline">Academic Journal • 12% match</p>
+</div>
+</div>
+<div class="mt-md p-sm bg-surface rounded-xl border border-dashed border-outline-variant italic text-xs text-on-surface-variant">
+                        "...the external cortex acts as a buffer for working memory, significantly reducing intrinsic cognitive load during complex tasks..."
+                    </div>
+</div>
+<!-- Source Card 2 -->
+<div class="neumorphic-card p-md group hover:bg-white transition-all">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-label-bold text-on-surface">Idea Log: Feb 2024</h4>
+<p class="text-xs text-outline">Personal Note • 45% match</p>
+</div>
+</div>
+<div class="mt-md flex flex-wrap gap-xs">
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] font-bold text-on-surface">#productivity</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-md text-[10px] font-bold text-on-surface">#philosophy</span>
+</div>
+</div>
+</div>
+<!-- Knowledge Graph Visual Stub -->
+<div class="mt-auto pt-lg">
+<div class="neumorphic-card p-lg overflow-hidden relative min-h-[160px] flex items-center justify-center">
+<img alt="Abstract representation of a neural network" class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale brightness-125" data-alt="A beautiful, minimalist 3D rendering of a neural network with glowing nodes and connecting lines in a soft pastel purple and mint green color palette. The background is a clean, bright white studio setting with soft ambient occlusion shadows, creating a sophisticated neumorphic aesthetic. The visual style is modern, technical yet approachable, reflecting an organized external digital brain." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP-mLPK99rZFknx3F4EemPHnH154dJLORK_U8XtGDslVIAjSwDRS-0G5n-XCjrAQOBda_Il_lgdppuKSsJRvsV_RD2xRge_Yt5msnz-ISXGWcP8brI9LT4_ATi-CgFBFWfFXt_bLJ8tBoWu1ablDEosNt4K3FTomeVpYqKUmWl5oppii_kaUihXaPHBW9B-dElxKS5lDlhCCqydH9zKZug0WOsNsvJJlLXOsnvgKGl3SIB_UFe35GaFtb3KSpHvso_lnIhr0uGswd4"/>
+<div class="relative z-10 text-center">
+<p class="text-xs font-label-bold text-primary mb-sm">Visualizing Connections</p>
+<button class="bg-primary text-white px-md py-sm rounded-full text-xs font-bold shadow-lg flex items-center gap-xs mx-auto">
+<span class="material-symbols-outlined text-sm">hub</span> Open Knowledge Graph
+                        </button>
+</div>
+</div>
+</div>
+<!-- Context Tools -->
+<div class="grid grid-cols-2 gap-md">
+<button class="neumorphic-card py-md flex flex-col items-center justify-center gap-xs transition-transform active:scale-95">
+<span class="material-symbols-outlined text-outline">folder_zip</span>
+<span class="text-[10px] font-bold uppercase text-outline">Export All</span>
+</button>
+<button class="neumorphic-card py-md flex flex-col items-center justify-center gap-xs transition-transform active:scale-95">
+<span class="material-symbols-outlined text-secondary">verified</span>
+<span class="text-[10px] font-bold uppercase text-outline">Fact Check</span>
+</button>
+</div>
+</aside>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 rounded-full ai-bubble text-white shadow-[0_12px_24px_rgba(75,83,187,0.4)] flex items-center justify-center transition-all hover:scale-110 active:scale-95 z-50 md:hidden">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</body></html>

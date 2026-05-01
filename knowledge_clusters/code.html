@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#502b03",
+                        "primary-fixed-dim": "#bec2ff",
+                        "secondary-fixed": "#5cfcca",
+                        "on-tertiary-fixed-variant": "#663d15",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container-high": "#e6e8eb",
+                        "outline-variant": "#c6c5d5",
+                        "inverse-primary": "#bec2ff",
+                        "surface-variant": "#e0e3e6",
+                        "tertiary-container": "#c89161",
+                        "surface-dim": "#d8dadd",
+                        "tertiary-fixed-dim": "#f6ba87",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#8b93ff",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary-fixed": "#ffdcc1",
+                        "tertiary": "#82542a",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "inverse-surface": "#2d3133",
+                        "on-surface-variant": "#464652",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fc",
+                        "surface-tint": "#4b53bb",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#767684",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#1d238f",
+                        "surface": "#f7f9fc",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eceef1",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eff1f4",
+                        "on-primary-fixed-variant": "#3239a2",
+                        "secondary-container": "#58f9c8",
+                        "on-secondary-container": "#007055",
+                        "on-primary-fixed": "#00016d",
+                        "primary": "#4b53bb",
+                        "on-secondary-fixed": "#002117",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#34dfaf",
+                        "secondary": "#006c52",
+                        "primary-fixed": "#e0e0ff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "48px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "margin": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .neumorphic-card {
+            background: #f7f9fc;
+            box-shadow: -8px -8px 16px rgba(255, 255, 255, 1), 8px 8px 16px rgba(139, 147, 255, 0.1);
+        }
+        .neumorphic-inset {
+            background: #f7f9fc;
+            box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.8), inset 4px 4px 8px rgba(139, 147, 255, 0.1);
+        }
+        .neumorphic-button:active {
+            box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 1), inset 4px 4px 8px rgba(139, 147, 255, 0.2);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#8B93FF] tracking-tight font-['Plus_Jakarta_Sans']">BrainOS</span>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full neumorphic-inset w-80">
+<span class="material-symbols-outlined text-slate-400 mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full p-0" placeholder="Search your mind..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-[#8B93FF] text-white px-4 py-2 rounded-full font-label-bold text-sm hover:scale-105 transition-transform active:scale-95">Add New</button>
+<div class="flex gap-2">
+<button class="p-2 text-slate-500 hover:bg-white/40 rounded-full transition-colors material-symbols-outlined" data-icon="notifications">notifications</button>
+<button class="p-2 text-slate-500 hover:bg-white/40 rounded-full transition-colors material-symbols-outlined" data-icon="account_circle">account_circle</button>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col py-6 z-50 bg-white/65 backdrop-blur-[30px] border-r border-white/20 shadow-[4px_0_24px_rgba(0,0,0,0.03)] hidden md:flex pt-20">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-black text-[#8B93FF] font-h2">My Brain</h2>
+<p class="text-xs text-slate-500 uppercase tracking-widest font-bold">External Cortex</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-bold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/timeline">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-bold">Memory Timeline</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF] transition-all group" href="/clusters">
+<span class="material-symbols-outlined" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-label-bold">Clusters</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/agents">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-label-bold">AI Hub</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/playground">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span class="font-label-bold">Playground</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/sources">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-label-bold">Sources</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/insights">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-label-bold">Insights</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/versions">
+<span class="material-symbols-outlined" data-icon="work_history">work_history</span>
+<span class="font-label-bold">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 hover:text-[#8B93FF] transition-all group" href="/privacy">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-bold">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="neumorphic-card p-4 rounded-2xl">
+<div class="flex items-center gap-3 mb-3">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="A portrait of a young professional woman with a friendly smile, set against a soft bokeh background of a modern office. The lighting is bright and natural, reflecting a clean light-mode UI aesthetic. Her expression is helpful and intelligent, aligning with the external brain OS theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs3PnnAtOtCxSZ3QqTlUwKsmtK9TtqDk7GTdCbSB0aFKqWwp3ZcqMlGqwkoN1ZBNTFX1P5ZkPYFtZGw_2bA6Xqwr7d_sQz5JRfeRMPfRl87oTmSc21EqnsqoAcnDBBRvcj0tL8chYtrHR9HywR-i30_2yl5vpQThpgPHncNBzMzlacoGGkvvSIEGdC7Baz9gMk4PIy8oqZuNrXMKiWxgeZldMeJW9YfAMjbQE95quH5ee6usXHYrgPy0TZXUymQAl0ro1lnttNgk2i"/>
+<div>
+<p class="text-xs font-bold text-on-surface">Upgrade Storage</p>
+<p class="text-[10px] text-slate-400">85% of 10GB used</p>
+</div>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#8B93FF] h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 px-6 md:px-12 pb-12 min-h-screen">
+<header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav class="flex items-center gap-2 text-slate-400 text-sm mb-2">
+<span>Knowledge</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-[#8B93FF] font-semibold">Clusters</span>
+</nav>
+<h1 class="font-h1 text-on-surface">Neural Organization</h1>
+<p class="text-slate-500 font-body-lg max-w-2xl mt-2">Your AI has analyzed your recent captures and identified 12 emerging knowledge domains.</p>
+</div>
+<div class="flex gap-3">
+<button class="neumorphic-button flex items-center gap-2 px-5 py-2.5 rounded-full font-label-bold text-[#8B93FF] neumorphic-card hover:scale-105 transition-all">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                    Sort
+                </button>
+<button class="neumorphic-button flex items-center gap-2 px-5 py-2.5 rounded-full font-label-bold text-[#8B93FF] neumorphic-card hover:scale-105 transition-all">
+<span class="material-symbols-outlined" data-icon="view_quilt">view_quilt</span>
+                    Density
+                </button>
+</div>
+</header>
+<!-- Playful Organic Layout (Bento-ish Grid with Offset) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+<!-- Cluster 1 -->
+<div class="group relative md:col-span-2 neumorphic-card p-8 rounded-[32px] cursor-pointer hover:translate-y-[-4px] transition-all duration-300">
+<div class="absolute top-6 right-6 flex -space-x-2">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[#8B93FF]" data-icon="description">description</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-secondary" data-icon="mic">mic</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-tertiary-container/20 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-tertiary" data-icon="image">image</span>
+</div>
+</div>
+<div class="bg-primary-container/10 inline-flex p-3 rounded-2xl mb-6">
+<span class="material-symbols-outlined text-[#8B93FF] text-3xl" data-icon="psychology">psychology</span>
+</div>
+<h3 class="font-h2 mb-2">Cognitive Architecture</h3>
+<p class="text-slate-500 mb-6">Structural patterns in AI and human learning interfaces.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-[#8B93FF]/10 text-[#8B93FF] text-xs font-bold rounded-full">42 Items</span>
+<span class="text-xs text-slate-400">Updated 2h ago</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-[#8B93FF] group-hover:translate-x-1 transition-all" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<!-- Cluster 2 -->
+<div class="neumorphic-card p-6 rounded-[32px] cursor-pointer hover:translate-y-[-4px] transition-all duration-300 flex flex-col">
+<div class="bg-secondary-container/10 inline-flex p-3 rounded-2xl mb-6 w-fit">
+<span class="material-symbols-outlined text-secondary text-2xl" data-icon="eco">eco</span>
+</div>
+<h3 class="font-h3 mb-2">Sustainability Hub</h3>
+<p class="text-slate-500 text-sm mb-6">Research on green tech and urban gardening concepts.</p>
+<div class="mt-auto flex items-center gap-2">
+<span class="px-3 py-1 bg-secondary-container/20 text-secondary text-xs font-bold rounded-full">18 Items</span>
+</div>
+</div>
+<!-- Cluster 3 -->
+<div class="neumorphic-card p-6 rounded-[32px] cursor-pointer hover:translate-y-[-4px] transition-all duration-300 flex flex-col">
+<div class="bg-tertiary-container/10 inline-flex p-3 rounded-2xl mb-6 w-fit">
+<span class="material-symbols-outlined text-tertiary text-2xl" data-icon="palette">palette</span>
+</div>
+<h3 class="font-h3 mb-2">Design Systems</h3>
+<p class="text-slate-500 text-sm mb-6">Visual tokens, component logic, and style guides.</p>
+<div class="mt-auto flex items-center gap-2">
+<span class="px-3 py-1 bg-tertiary-container/20 text-on-tertiary-container text-xs font-bold rounded-full">27 Items</span>
+</div>
+</div>
+<!-- Cluster 4 -->
+<div class="neumorphic-card p-6 rounded-[32px] cursor-pointer hover:translate-y-[-4px] transition-all duration-300 flex flex-col">
+<div class="bg-on-primary-fixed-variant/10 inline-flex p-3 rounded-2xl mb-6 w-fit">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="code">code</span>
+</div>
+<h3 class="font-h3 mb-2">Project: Phoenix</h3>
+<p class="text-slate-500 text-sm mb-6">Documentation for the new backend restructuring.</p>
+<div class="mt-auto flex items-center gap-2">
+<span class="px-3 py-1 bg-primary-fixed/30 text-primary text-xs font-bold rounded-full">65 Items</span>
+</div>
+</div>
+<!-- Cluster 5 -->
+<div class="md:col-span-2 neumorphic-card p-8 rounded-[32px] cursor-pointer hover:translate-y-[-4px] transition-all duration-300 flex items-center gap-8">
+<div class="w-1/3 h-full rounded-2xl overflow-hidden relative neumorphic-inset">
+<img class="w-full h-full object-cover" data-alt="Macro photography of a lush, deep green rainforest canopy at dawn. Soft mist rolls over the trees, catching the first golden rays of sunlight. The image is rich in texture and organic detail, perfectly embodying a sustainability and research theme within a soft, modern UI framework." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZX1w99wEEXJZR83-gk3frk4CPkw8AHXFPPdQLkV3K3gPlTXGnyQZJl4es8s57JrQwJkFNRO_IzIoWMolTQ3somGY_6AOVWCHSduJjMVGhF1eM6o3hGyi4nF2KoW7D6WnSoAcWoOcBmzI7oAAjuk5bPrEqU_sKisL_wvs9_NkmSohWX8GHmCUudelDB8xAiUnqOTApiFNT1KGjtto5wW3s4d4zGz8mjEqJXGET3KR39H9Ua3JK4bI5PfTdnyf9cY9tuN64EXQrEHI0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+</div>
+<div class="flex-1">
+<div class="bg-on-tertiary-fixed-variant/10 inline-flex p-3 rounded-2xl mb-6">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="local_library">local_library</span>
+</div>
+<h3 class="font-h2 mb-2">Reading List</h3>
+<p class="text-slate-500 mb-6">Curated articles and papers waiting for deep processing.</p>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-tertiary-fixed/40 text-on-tertiary-fixed text-xs font-bold rounded-full">124 Articles</span>
+</div>
+</div>
+</div>
+<!-- Cluster 6 -->
+<div class="neumorphic-card p-6 rounded-[32px] cursor-pointer hover:translate-y-[-4px] transition-all duration-300 flex flex-col">
+<div class="bg-error-container/20 inline-flex p-3 rounded-2xl mb-6 w-fit">
+<span class="material-symbols-outlined text-error text-2xl" data-icon="favorite">favorite</span>
+</div>
+<h3 class="font-h3 mb-2">Wellness &amp; Rituals</h3>
+<p class="text-slate-500 text-sm mb-6">Meditation scripts and morning routine experiments.</p>
+<div class="mt-auto flex items-center gap-2">
+<span class="px-3 py-1 bg-error-container text-on-error-container text-xs font-bold rounded-full">9 Items</span>
+</div>
+</div>
+<!-- Cluster 7 -->
+<div class="neumorphic-card p-6 rounded-[32px] cursor-pointer hover:translate-y-[-4px] transition-all duration-300 flex flex-col">
+<div class="bg-secondary-fixed/20 inline-flex p-3 rounded-2xl mb-6 w-fit">
+<span class="material-symbols-outlined text-secondary text-2xl" data-icon="currency_bitcoin">currency_bitcoin</span>
+</div>
+<h3 class="font-h3 mb-2">Web3 Strategy</h3>
+<p class="text-slate-500 text-sm mb-6">DAO structures and decentralized storage research.</p>
+<div class="mt-auto flex items-center gap-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full">31 Items</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Slide-Over Panel (Visible for demonstration, would be triggered by interaction) -->
+<div class="fixed top-0 right-0 h-full w-full md:w-[480px] z-[60] translate-x-0 transition-transform duration-500 ease-in-out pointer-events-none">
+<div class="h-full bg-white/80 backdrop-blur-[40px] shadow-[-20px_0_60px_rgba(0,0,0,0.1)] border-l border-white/40 p-8 pointer-events-auto flex flex-col translate-x-full lg:translate-x-0">
+<div class="flex items-center justify-between mb-8">
+<button class="p-2 hover:bg-slate-100 rounded-full transition-colors material-symbols-outlined" data-icon="close">close</button>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-slate-100 rounded-full transition-colors material-symbols-outlined" data-icon="share">share</button>
+<button class="p-2 hover:bg-slate-100 rounded-full transition-colors material-symbols-outlined" data-icon="more_vert">more_vert</button>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 rounded-[24px] bg-[#8B93FF]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#8B93FF] text-3xl" data-icon="psychology">psychology</span>
+</div>
+<div>
+<h2 class="font-h2 text-[#8B93FF]">Cognitive Architecture</h2>
+<p class="text-sm text-slate-400">42 Related Nodes</p>
+</div>
+</div>
+<div class="space-y-6 flex-1 overflow-y-auto pr-2">
+<section>
+<h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">AI Cluster Insights</h4>
+<div class="neumorphic-card p-5 rounded-2xl border-l-4 border-[#8B93FF]">
+<p class="text-sm leading-relaxed text-on-surface">"This cluster shows a strong correlation between <span class="text-[#8B93FF] font-semibold">LLM hallucinations</span> and <span class="text-[#8B93FF] font-semibold">User Interface feedback loops</span>. 65% of your notes mention 'trust' as a key metric."</p>
+</div>
+</section>
+<section>
+<h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Top Connections</h4>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 bg-white/50 rounded-xl hover:bg-white transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 material-symbols-outlined" data-icon="article">article</div>
+<div class="flex-1">
+<p class="text-sm font-semibold">The Interface of Thought</p>
+<p class="text-[10px] text-slate-400">PDF • 1.2MB • Added Oct 12</p>
+</div>
+<span class="material-symbols-outlined text-xs text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="open_in_new">open_in_new</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-white/50 rounded-xl hover:bg-white transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 material-symbols-outlined" data-icon="link">link</div>
+<div class="flex-1">
+<p class="text-sm font-semibold">OpenAI Dev Day Recap</p>
+<p class="text-[10px] text-slate-400">URL • brainos.ai/notes • Added Oct 10</p>
+</div>
+<span class="material-symbols-outlined text-xs text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="open_in_new">open_in_new</span>
+</div>
+</div>
+</section>
+<section>
+<h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Memory</h4>
+<div class="grid grid-cols-2 gap-3">
+<img class="w-full h-32 object-cover rounded-xl shadow-sm" data-alt="Abstract 3D digital render of glowing neural pathways and interconnected nodes, bathed in soft lavender and neon cyan lighting. The aesthetic is high-tech but approachable, featuring smooth surfaces and deep bokeh depth-of-field effects. This represents the mental visualization of complex AI data structures within a clean, light-mode OS environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy0yc0bQoG91-pi3HFmOPWht4kWqeU9He3gt20Ks1d_KYSV8xldhoYMSHBHbsVxnjYs3yqdFdK8dshbRJBqEOLKCdGXSJWWV5vuH4K14D62oBUopv8EHA5yo3sKeMMJIP2uFmvohXcV8Jgs_UXLDsxNMehdOlrIY1gDtJFtNjcH_p8yX8plwIULgknb7irVCNEg4-LFzl71epiEcjLv0TprU565O92YHXlaObxZkizHo845fjQtHBi6yvnZTY7g6SjW8rjMz5fBuOb"/>
+<img class="w-full h-32 object-cover rounded-xl shadow-sm" data-alt="A minimalist and calming color gradient of soft blues, purples, and pinks. The texture is smooth and velvety, resembling a digital sunrise. This atmospheric background provides a serene backdrop for knowledge visualization and cognitive processing in a modern, professional UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBzrDFfNgJBohb7AtlBPyOaXF85UCZgsudpCujsgrunb5tzAfJhGKVLdl_ZnFGIxi2EeBI6B7nfAd-ldvo12U0Iop51ERux_2rlcQ8kRzyMmjG5NQ5NpWbZTYfrFpPOA9yuPuMsxALxDNd5NFSnMCwE8KM4F1dr_-pv7BBzVn0dZtiuV5nrBKX7KLhEOhTHha0kYXMDrvF76ocoAWusu_21JVKnJDDpqzcFpzOz-Cu0Z44DGVeU9aMrMN39qhaOaTjgANMu2xpmB2M"/>
+</div>
+</section>
+</div>
+<div class="mt-8 pt-6 border-t border-slate-100">
+<button class="w-full bg-[#8B93FF] text-white py-4 rounded-2xl font-h3 hover:shadow-lg transition-all active:scale-95">Open Deep Dive</button>
+</div>
+</div>
+</div>
+<!-- Mobile Bottom Navigation (Visible only on small screens) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full h-16 bg-white/80 backdrop-blur-xl border-t border-slate-100 flex items-center justify-around px-6 z-40">
+<button class="p-2 text-[#8B93FF] material-symbols-outlined" data-icon="dashboard">dashboard</button>
+<button class="p-2 text-slate-400 material-symbols-outlined" data-icon="auto_awesome_motion">auto_awesome_motion</button>
+<button class="p-4 bg-[#8B93FF] text-white rounded-full -translate-y-6 shadow-xl material-symbols-outlined" data-icon="add">add</button>
+<button class="p-2 text-slate-400 material-symbols-outlined" data-icon="insights">insights</button>
+<button class="p-2 text-slate-400 material-symbols-outlined" data-icon="settings">settings</button>
+</nav>
+</body></html>

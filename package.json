@@ -1,0 +1,21 @@
+{
+  "name": "personal-knowledge-os",
+  "version": "1.0.0",
+  "description": "AI-native Personal Knowledge OS with RAG and multi-agent workflows",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "uuid": "^9.0.1",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {},
+  "keywords": ["ai", "knowledge", "rag", "agents"],
+  "author": "",
+  "license": "ISC"
+}

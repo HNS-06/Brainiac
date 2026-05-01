@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Memory Timeline - BrainOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#502b03",
+                        "primary-fixed-dim": "#bec2ff",
+                        "secondary-fixed": "#5cfcca",
+                        "on-tertiary-fixed-variant": "#663d15",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container-high": "#e6e8eb",
+                        "outline-variant": "#c6c5d5",
+                        "inverse-primary": "#bec2ff",
+                        "surface-variant": "#e0e3e6",
+                        "tertiary-container": "#c89161",
+                        "surface-dim": "#d8dadd",
+                        "tertiary-fixed-dim": "#f6ba87",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#8b93ff",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary-fixed": "#ffdcc1",
+                        "tertiary": "#82542a",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "inverse-surface": "#2d3133",
+                        "on-surface-variant": "#464652",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fc",
+                        "surface-tint": "#4b53bb",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#767684",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#1d238f",
+                        "surface": "#f7f9fc",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eceef1",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eff1f4",
+                        "on-primary-fixed-variant": "#3239a2",
+                        "secondary-container": "#58f9c8",
+                        "on-secondary-container": "#007055",
+                        "on-primary-fixed": "#00016d",
+                        "primary": "#4b53bb",
+                        "on-secondary-fixed": "#002117",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#34dfaf",
+                        "secondary": "#006c52",
+                        "primary-fixed": "#e0e0ff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "48px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "margin": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .neumorphic-flat {
+            background: #f7f9fc;
+            box-shadow: -8px -8px 16px rgba(255, 255, 255, 1), 8px 8px 16px rgba(180, 190, 205, 0.4);
+        }
+        .neumorphic-inset {
+            background: #f7f9fc;
+            box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 1), inset 4px 4px 8px rgba(180, 190, 205, 0.3);
+        }
+        .neumorphic-button:active {
+            box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 1), inset 4px 4px 8px rgba(180, 190, 205, 0.3);
+            transform: scale(0.98);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bec2ff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)] md:pl-[280px]">
+<div class="flex items-center gap-md">
+<span class="text-xl font-bold text-[#8B93FF] tracking-tight font-['Plus_Jakarta_Sans']">BrainOS</span>
+<div class="hidden md:flex neumorphic-inset rounded-full px-4 py-1.5 items-center gap-2 ml-4">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-64 p-0 placeholder:text-outline/60" placeholder="Search memories..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex items-center gap-2 px-4 py-2 bg-primary-container text-white rounded-full font-label-bold shadow-lg hover:opacity-90 transition-all neumorphic-button">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                Add New
+            </button>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-500 hover:bg-white/40 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed-dim flex items-center justify-center text-on-secondary-container font-bold text-xs overflow-hidden">
+<img alt="User" data-alt="A stylized digital avatar of a young professional with short dark hair and modern glasses, set against a soft lavender circular background that matches the BrainOS interface colors. The avatar has a friendly, minimalist cartoon aesthetic with clean lines and soft shading." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9SoSIkvpGJmkxUVo1xEDcmsjS5DGASBW2Hgz8owd-GJN_uwnaujZ0HY8S193BIqptV_OWSM9KFv6dfay7juFCX6ZotM4a1BtoOPFm20OcKYrS2xwlf4xKhQco1_RLUz999BMz28r2VEVQfHDA2XDB2Zh_i1VltGACkUE3EWLX5OIuoPE-0hj5GixgguuLJlCTI2aKLjAUscuqQEEJQQssYM5ry04SoinEk9fc0Y0GKzK3pVSqwaeZU5NXDQFkwjer4Zz6ECuyGzdQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col py-6 z-50 bg-white/65 backdrop-blur-[30px] w-64 border-r border-white/20 shadow-[4px_0_24px_rgba(0,0,0,0.03)] hidden md:flex">
+<div class="px-6 mb-8">
+<h1 class="text-lg font-black text-[#8B93FF] font-['Plus_Jakarta_Sans']">My Brain</h1>
+<p class="text-xs text-slate-500 font-medium">External Cortex</p>
+</div>
+<div class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF] rounded-xl" href="/timeline">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Memory Timeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/clusters">
+<span class="material-symbols-outlined" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Clusters</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/agents">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">AI Hub</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/playground">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Playground</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/sources">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Sources</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/insights">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Insights</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/versions">
+<span class="material-symbols-outlined" data-icon="work_history">work_history</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">History</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-[#8B93FF]/5 rounded-xl transition-all duration-300" href="/privacy">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Settings</span>
+</a>
+</div>
+<div class="px-6 mt-auto">
+<div class="p-4 bg-primary-fixed rounded-2xl border border-white/40 shadow-sm">
+<p class="text-xs font-bold text-primary mb-2">92% Storage Used</p>
+<div class="w-full bg-white/50 rounded-full h-1.5 mb-3">
+<div class="bg-primary h-full rounded-full w-[92%]"></div>
+</div>
+<button class="w-full py-2 bg-white text-primary text-xs font-bold rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    Upgrade Storage
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-24 pb-12 px-6 md:ml-64 max-w-5xl mx-auto custom-scrollbar">
+<!-- Header Section -->
+<div class="mb-10">
+<h2 class="font-h1 text-h2 text-on-surface mb-2">Memory Timeline</h2>
+<p class="text-on-surface-variant font-body-md max-w-xl">A chronological stream of everything you've learned, saved, and processed today and beyond.</p>
+</div>
+<!-- On This Day Insight Card (Glassmorphic) -->
+<section class="mb-12 relative overflow-hidden rounded-[32px] bg-white/40 backdrop-blur-md border border-white/60 shadow-xl p-8 flex flex-col md:flex-row gap-8 items-center">
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-12 -left-12 w-48 h-48 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="relative w-32 h-32 flex-shrink-0 bg-white rounded-[24px] neumorphic-flat flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-primary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-[#8B93FF]/20 text-[#8B93FF] rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+<span class="material-symbols-outlined text-[14px]" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                    On This Day
+                </div>
+<h3 class="font-h2 text-h3 text-on-surface mb-2">1 Year Ago: Deep Sea Exploration Project</h3>
+<p class="text-on-surface-variant font-body-md mb-4">You captured 14 notes regarding bioluminescent flora. Would you like to synthesize these into your current Marine Biology cluster?</p>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 bg-primary-container text-white rounded-xl font-label-bold neumorphic-button">Synthesize Now</button>
+<button class="px-6 py-2.5 bg-white/50 text-on-surface-variant border border-white/80 rounded-xl font-label-bold hover:bg-white transition-colors">Dismiss</button>
+</div>
+</div>
+</section>
+<!-- Timeline Section -->
+<div class="relative pl-8 md:pl-12">
+<!-- Continuous Timeline Line -->
+<div class="absolute left-3 md:left-5 top-0 bottom-0 w-1 bg-gradient-to-b from-[#8B93FF]/40 via-[#5cfcca]/40 to-transparent rounded-full"></div>
+<!-- Date Header -->
+<div class="relative mb-10">
+<div class="absolute -left-[29px] md:-left-[37px] top-1 w-6 h-6 rounded-full bg-[#8B93FF] border-4 border-white shadow-md z-10"></div>
+<h4 class="font-h3 text-xl text-[#8B93FF] font-bold">Today, Oct 24</h4>
+</div>
+<!-- Entry 1: Link -->
+<div class="relative mb-12 group">
+<div class="absolute -left-[27px] md:-left-[35px] top-6 w-5 h-5 rounded-full bg-white border-[3px] border-primary shadow-sm z-10 transition-transform group-hover:scale-125"></div>
+<div class="flex flex-col md:flex-row gap-gutter items-start">
+<div class="hidden md:block w-24 pt-6 text-sm font-bold text-slate-400">09:45 AM</div>
+<div class="flex-1 w-full neumorphic-flat rounded-[24px] p-6 hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="link">link</span>
+</div>
+<div>
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Web Article</span>
+<h5 class="font-h3 text-lg leading-tight">Neural Plasticity in Adult Mammals</h5>
+</div>
+</div>
+<span class="md:hidden text-xs font-bold text-slate-400">09:45 AM</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-4 line-clamp-2">A fascinating study on how the hippocampal neurons adapt to new linguistic patterns after the age of 30...</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-lg text-xs text-on-surface-variant border border-white/50">#neuroscience</span>
+<span class="px-3 py-1 bg-surface-container rounded-lg text-xs text-on-surface-variant border border-white/50">#learning</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Entry 2: Note -->
+<div class="relative mb-12 group">
+<div class="absolute -left-[27px] md:-left-[35px] top-6 w-5 h-5 rounded-full bg-white border-[3px] border-tertiary-container shadow-sm z-10 transition-transform group-hover:scale-125"></div>
+<div class="flex flex-col md:flex-row gap-gutter items-start">
+<div class="hidden md:block w-24 pt-6 text-sm font-bold text-slate-400">11:20 AM</div>
+<div class="flex-1 w-full neumorphic-flat rounded-[24px] p-6 hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-tertiary-container/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div>
+<span class="text-xs font-bold text-tertiary uppercase tracking-widest">Thought Capture</span>
+<h5 class="font-h3 text-lg leading-tight">Architecture of Distributed Systems</h5>
+</div>
+</div>
+<span class="md:hidden text-xs font-bold text-slate-400">11:20 AM</span>
+</div>
+<div class="bg-white/40 p-4 rounded-xl border border-white/60 italic text-sm text-on-surface-variant mb-4">
+                            "The bottleneck isn't the network, it's the state management across nodes. Look into eventual consistency vs strong consistency for the BrainOS core."
+                        </div>
+<div class="flex items-center gap-4 text-xs font-bold text-primary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="smart_toy">smart_toy</span> AI Enhanced</span>
+<span class="flex items-center gap-1 text-slate-400"><span class="material-symbols-outlined text-sm" data-icon="attachment">attachment</span> 2 Files</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Entry 3: PDF -->
+<div class="relative mb-12 group">
+<div class="absolute -left-[27px] md:-left-[35px] top-6 w-5 h-5 rounded-full bg-white border-[3px] border-secondary-container shadow-sm z-10 transition-transform group-hover:scale-125"></div>
+<div class="flex flex-col md:flex-row gap-gutter items-start">
+<div class="hidden md:block w-24 pt-6 text-sm font-bold text-slate-400">02:15 PM</div>
+<div class="flex-1 w-full neumorphic-flat rounded-[24px] p-0 overflow-hidden hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex flex-col md:flex-row h-full">
+<div class="md:w-48 h-40 md:h-auto bg-surface-container relative">
+<img alt="Document Preview" class="w-full h-full object-cover" data-alt="A macro photograph of high-quality architectural blueprints showing intricate structural details and mathematical notations. The paper has a warm, tactile texture and is illuminated by soft, natural morning light from a nearby window, creating gentle shadows and a sense of professional scholarly work." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIqleAKuhec31v_OkYaINCqhe5224d4vVvpppTqq-dX8zeTaDLiZxXrO8b0WLYaYef0iBaCLlS6oJXKIRRGjsu5UBVbUfvG3G5ttqED_UjfbCPXxBz8kDmMWnwQr_VDP_hp9Tq2OhzFdaYS4BClALHOFFFKR0X9CNJCKNiiJQ5ife2K5rGavia9i-wCq15vfl8trSKd_I93u4KEYr9n3yBKxawYC6TDFUxGjzNJKxwS3-n1BPCBKslNFpyeyRmN2CUPKX6apv-Rz60"/>
+<div class="absolute inset-0 bg-secondary/20 flex items-center justify-center backdrop-blur-[2px]">
+<span class="material-symbols-outlined text-4xl text-white drop-shadow-md" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+</div>
+<div class="p-6 flex-1">
+<div class="flex items-start justify-between mb-2">
+<div>
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Research Paper</span>
+<h5 class="font-h3 text-lg leading-tight">Post-Modern Urbanism 2024</h5>
+</div>
+<span class="md:hidden text-xs font-bold text-slate-400">02:15 PM</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-4">A 45-page analysis on sustainable city-states. Key takeaway: Green roofs reduce thermal load by 40%.</p>
+<button class="text-xs font-bold text-secondary flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span> View Summary
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Yesterday Section -->
+<div class="relative mb-10 pt-10">
+<div class="absolute -left-[29px] md:-left-[37px] top-11 w-6 h-6 rounded-full bg-slate-300 border-4 border-white shadow-md z-10"></div>
+<h4 class="font-h3 text-xl text-slate-500 font-bold">Yesterday, Oct 23</h4>
+</div>
+<!-- Entry 4: Simple entry -->
+<div class="relative mb-12 group">
+<div class="absolute -left-[27px] md:-left-[35px] top-6 w-5 h-5 rounded-full bg-white border-[3px] border-slate-300 shadow-sm z-10 transition-transform group-hover:scale-125"></div>
+<div class="flex flex-col md:flex-row gap-gutter items-start">
+<div class="hidden md:block w-24 pt-6 text-sm font-bold text-slate-400">06:00 PM</div>
+<div class="flex-1 w-full neumorphic-flat rounded-[24px] p-6 opacity-80 hover:opacity-100 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined" data-icon="mic">mic</span>
+</div>
+<div>
+<span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Audio Memo</span>
+<h5 class="font-h3 text-lg leading-tight">Grocery List &amp; Meal Planning</h5>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FAB for Adding Memory (Contextual) -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 bg-primary text-white rounded-2xl shadow-[0_12px_24px_rgba(75,83,187,0.4)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl" data-icon="add" style="font-variation-settings: 'wght' 600;">add</span>
+</button>
+</div>
+</main>
+<!-- Mobile Bottom Navigation (Visible only on mobile) -->
+<nav class="fixed bottom-0 left-0 w-full bg-white/65 backdrop-blur-[20px] shadow-[0_-8px_16px_rgba(0,0,0,0.05)] flex justify-around items-center h-16 md:hidden z-50">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" data-icon="history" style="font-variation-settings: 'FILL' 1;">history</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</nav>
+</body></html>

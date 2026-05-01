@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BrainOS | AI Agents Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#502b03",
+                        "primary-fixed-dim": "#bec2ff",
+                        "secondary-fixed": "#5cfcca",
+                        "on-tertiary-fixed-variant": "#663d15",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container-high": "#e6e8eb",
+                        "outline-variant": "#c6c5d5",
+                        "inverse-primary": "#bec2ff",
+                        "surface-variant": "#e0e3e6",
+                        "tertiary-container": "#c89161",
+                        "surface-dim": "#d8dadd",
+                        "tertiary-fixed-dim": "#f6ba87",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#8b93ff",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary-fixed": "#ffdcc1",
+                        "tertiary": "#82542a",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "inverse-surface": "#2d3133",
+                        "on-surface-variant": "#464652",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fc",
+                        "surface-tint": "#4b53bb",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#767684",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#1d238f",
+                        "surface": "#f7f9fc",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eceef1",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eff1f4",
+                        "on-primary-fixed-variant": "#3239a2",
+                        "secondary-container": "#58f9c8",
+                        "on-secondary-container": "#007055",
+                        "on-primary-fixed": "#00016d",
+                        "primary": "#4b53bb",
+                        "on-secondary-fixed": "#002117",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#34dfaf",
+                        "secondary": "#006c52",
+                        "primary-fixed": "#e0e0ff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "48px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "margin": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .neumorphic-flat {
+            background: #f7f9fc;
+            box-shadow: -8px -8px 16px rgba(255, 255, 255, 0.8), 8px 8px 16px rgba(180, 190, 205, 0.3);
+        }
+        .neumorphic-inset {
+            background: #f7f9fc;
+            box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.8), inset 4px 4px 8px rgba(180, 190, 205, 0.3);
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#8B93FF] tracking-tight">BrainOS</span>
+<div class="hidden md:flex items-center space-x-6">
+<div class="neumorphic-inset px-4 py-2 rounded-full flex items-center gap-2 w-64">
+<span class="material-symbols-outlined text-slate-400">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full" placeholder="Search cortex..." type="text"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-on-primary px-4 py-2 rounded-xl font-label-bold text-label-bold hover:scale-95 transition-all duration-200 shadow-sm">
+                Add New
+            </button>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-white/40 transition-colors">
+<span class="material-symbols-outlined text-slate-600">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 z-50 w-64 bg-white/65 backdrop-blur-[30px] border-r border-white/20 shadow-[4px_0_24px_rgba(0,0,0,0.03)] hidden md:flex">
+<div class="px-6 mb-8 mt-12">
+<h2 class="text-lg font-black text-[#8B93FF]">My Brain</h2>
+<p class="text-xs text-slate-500">External Cortex</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF]" href="/agents">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="text-sm">AI Hub</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/timeline">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm">Memory Timeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/clusters">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="text-sm">Clusters</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/playground">
+<span class="material-symbols-outlined">science</span>
+<span class="text-sm">Playground</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/sources">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-sm">Sources</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/insights">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-sm">Insights</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="neumorphic-flat p-4 rounded-2xl bg-gradient-to-br from-white to-primary-fixed/20">
+<p class="text-[10px] font-bold uppercase tracking-wider text-primary mb-2">Storage Status</p>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mb-3">
+<div class="bg-primary w-2/3 h-full rounded-full"></div>
+</div>
+<button class="w-full text-xs font-bold py-2 px-4 rounded-lg bg-white shadow-sm border border-primary/10 text-primary">Upgrade Storage</button>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="pt-24 pb-12 pl-6 md:pl-72 pr-6 max-w-[1600px] mx-auto">
+<!-- Header -->
+<header class="mb-gutter">
+<h1 class="font-h1 text-h1 text-on-surface">AI Hub</h1>
+<p class="font-body-lg text-body-lg text-outline">Manage your external cortex agents and monitors.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Active Agents Row -->
+<div class="md:col-span-12 lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-gutter">
+<!-- Agent: The Retriever -->
+<div class="neumorphic-flat p-6 rounded-[24px] flex flex-col items-center text-center group cursor-pointer border border-white/40">
+<div class="w-24 h-24 rounded-full bg-secondary-container/30 flex items-center justify-center mb-4 relative overflow-hidden">
+<img alt="The Retriever" class="w-16 h-16 z-10" data-alt="A friendly, minimal cartoon-style robot avatar with a rounded head and soft blue glowing eyes. The robot is colored in pastel mint green and white, floating in a clean, minimalist digital void with soft volumetric lighting. The visual style is playful, 3D, and tactile, matching a high-end personal OS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx9BQ3YmIP9TH_dUBrzm1fqcPQC-JNFkxv0dvM-FCfLmAPPeaK7OCVVkpQsqNvI5Z00yjvmQLsHLs_GoJmcXVbnoZPhUauZtOjJWKJGGjAKpYjlQRfJ32UFIuhXmeTf_j2og2pEO7VK9xIcH3T8OrIqNZMBI6Cl1EWo59i3sc20-6GAERJ-J3K3QmgjNu1kcyLoj0VkKj2mqSZFqMsAPwLFG-kktGIgdxo1NuHpk4VgEiTbLcGwPva-iqWPUrssnrG774RVMamijti"/>
+<div class="absolute inset-0 bg-secondary-fixed/10 animate-pulse"></div>
+</div>
+<div class="mb-4">
+<h3 class="font-h3 text-h3 text-on-surface">The Retriever</h3>
+<div class="flex items-center justify-center gap-1.5 mt-1">
+<span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_#34dfaf]"></span>
+<span class="text-xs font-label-bold text-secondary uppercase">Pulse</span>
+</div>
+</div>
+<p class="text-sm text-outline mb-6">Scanning 14 connected sources for new knowledge nodes.</p>
+<div class="mt-auto w-full">
+<button class="w-full py-2.5 rounded-xl neumorphic-inset text-xs font-bold text-on-surface-variant hover:text-primary transition-colors">View Details</button>
+</div>
+</div>
+<!-- Agent: The Summarizer -->
+<div class="neumorphic-flat p-6 rounded-[24px] flex flex-col items-center text-center group cursor-pointer border border-white/40">
+<div class="w-24 h-24 rounded-full bg-tertiary-container/20 flex items-center justify-center mb-4 relative">
+<img alt="The Summarizer" class="w-16 h-16 z-10" data-alt="A cute, minimalist 3D robot character with square proportions and expressive digital eyes. It features a warm lavender and beige color scheme. The lighting is soft and diffused, creating a friendly and approachable feel within a modern, light-themed user interface. The background is a subtle pastel gradient." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsyjrfiZL3bKJO06VN4kDC91ciMWuw4c5s_UjdIXj-JFISDSlwrJttK8lbrCnN487LX4gOIJENeDBE49RpmKyjWPCNUHqjWjcMmoF4li6PMjGtlMIpiOdLfS2W9B3LIMzQeOFsToy4RUmOwQbpUfsjTpCyCP8faAyZS45sG7rK9_uxabjNcz_su4r1WIHsZmlRNJXOfaJG8OSaJ9ro4GHsyhvV8ONn83sERhc3ZEYAyaAapluxgL6j_AkDdP9U64-3s4ZxmmYcVnWY"/>
+</div>
+<div class="mb-4">
+<h3 class="font-h3 text-h3 text-on-surface">The Summarizer</h3>
+<div class="flex items-center justify-center gap-1.5 mt-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="text-xs font-label-bold text-outline uppercase">Idle</span>
+</div>
+</div>
+<p class="text-sm text-outline mb-6">Waiting for high-density document ingestions to process.</p>
+<div class="mt-auto w-full">
+<button class="w-full py-2.5 rounded-xl neumorphic-inset text-xs font-bold text-on-surface-variant hover:text-primary transition-colors">View Details</button>
+</div>
+</div>
+<!-- Agent: The Verifier -->
+<div class="neumorphic-flat p-6 rounded-[24px] flex flex-col items-center text-center group cursor-pointer border border-white/40">
+<div class="w-24 h-24 rounded-full bg-primary-container/20 flex items-center justify-center mb-4 relative">
+<img alt="The Verifier" class="w-16 h-16 z-10" data-alt="A sophisticated yet friendly minimalist robot with a sleek circular body and antenna. It is colored in shades of soft blue and white. The character sits in a bright, airy digital environment with soft, ambient occlusion shadows. The aesthetic is clean, professional, and tactile, designed for a modern productivity application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Ka9mAW1jo-tZNo2xlHtCRxz0Reyqv4athKDxFn6ee7GwWIB3kRIWQCMGjUMBn0PcvNF6supR-niM_wz4XstEez5dIS6FdwNaaK4MO0r9FTTkcrQdhNRlsVV083xNNms7Aff5L2c8YAmkVJM-elLFzzviRVZfHoHyp0FIA1yecpFfT2IhrradAOcaN4qnqw85dIJHyTZukOYiTZ1yQflsbfH9H3clVYj_te1tyUQOesvlzEJSOBZTgKbg2npmYz7JgRncuWDkJVE_"/>
+<div class="absolute bottom-1 right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">sync</span>
+</div>
+</div>
+<div class="mb-4">
+<h3 class="font-h3 text-h3 text-on-surface">The Verifier</h3>
+<div class="flex items-center justify-center gap-1.5 mt-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs font-label-bold text-primary uppercase">Working</span>
+</div>
+</div>
+<p class="text-sm text-outline mb-6">Cross-referencing 'Project Alpha' citations with web data.</p>
+<div class="mt-auto w-full">
+<button class="w-full py-2.5 rounded-xl neumorphic-inset text-xs font-bold text-on-surface-variant hover:text-primary transition-colors">View Details</button>
+</div>
+</div>
+</div>
+<!-- Stats & Insights -->
+<div class="md:col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<div class="neumorphic-flat p-6 rounded-[24px] flex-1 border border-white/40">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-h3 text-h3">Efficiency</h4>
+<span class="material-symbols-outlined text-primary">trending_up</span>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs font-label-bold mb-2">
+<span class="text-outline">Cortex Accuracy</span>
+<span class="text-on-surface">98.2%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full">
+<div class="h-full w-[98%] bg-secondary rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-label-bold mb-2">
+<span class="text-outline">Sync Speed</span>
+<span class="text-on-surface">450ms</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full">
+<div class="h-full w-[85%] bg-primary-container rounded-full"></div>
+</div>
+</div>
+<div class="pt-4 mt-4 border-t border-white/20">
+<p class="text-xs text-outline leading-relaxed italic">"BrainOS agents are performing 12% faster than last week due to recent Memory Timeline optimizations."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Activity Log Section -->
+<div class="md:col-span-12">
+<div class="neumorphic-flat rounded-[32px] overflow-hidden border border-white/40">
+<div class="glass-header px-8 py-5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">event_note</span>
+<h2 class="font-h2 text-[20px]">Recent Activity Log</h2>
+</div>
+<button class="text-xs font-bold text-primary hover:underline transition-all">Export Logs</button>
+</div>
+<div class="p-4">
+<div class="space-y-1">
+<!-- Log Item 1 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/50 transition-colors group cursor-default">
+<div class="w-10 h-10 rounded-full neumorphic-inset flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-sm font-semibold text-on-surface">The Verifier <span class="font-normal text-outline">completed cross-check</span></p>
+<span class="text-[11px] font-label-bold text-outline">2m ago</span>
+</div>
+<p class="text-xs text-outline-variant mt-0.5">Verified 12 nodes in "Quantum Physics" cluster.</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<!-- Log Item 2 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/50 transition-colors group cursor-default">
+<div class="w-10 h-10 rounded-full neumorphic-inset flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[20px]">cloud_download</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-sm font-semibold text-on-surface">The Retriever <span class="font-normal text-outline">indexed new source</span></p>
+<span class="text-[11px] font-label-bold text-outline">15m ago</span>
+</div>
+<p class="text-xs text-outline-variant mt-0.5">Integrated "Advanced Neural Networks.pdf" into Memory Timeline.</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<!-- Log Item 3 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/50 transition-colors group cursor-default">
+<div class="w-10 h-10 rounded-full neumorphic-inset flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-sm font-semibold text-on-surface">The Summarizer <span class="font-normal text-outline">generated briefing</span></p>
+<span class="text-[11px] font-label-bold text-outline">1h ago</span>
+</div>
+<p class="text-xs text-outline-variant mt-0.5">Morning summary of 42 unread notifications ready for review.</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<!-- Log Item 4 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/50 transition-colors group cursor-default">
+<div class="w-10 h-10 rounded-full neumorphic-inset flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error text-[20px]">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-sm font-semibold text-on-surface">System <span class="font-normal text-outline">source disconnected</span></p>
+<span class="text-[11px] font-label-bold text-outline">3h ago</span>
+</div>
+<p class="text-xs text-outline-variant mt-0.5">Connection to "Work Calendar" lost. Re-authentication required.</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+</div>
+<button class="w-full py-4 text-sm font-label-bold text-outline hover:text-primary transition-colors">Show Older Activities</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for quick AI query -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+</body></html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neumorphic-flat {
+            background: #f7f9fc;
+            box-shadow: -8px -8px 16px #ffffff, 8px 8px 16px #d1d9e6;
+        }
+        .neumorphic-inset {
+            background: #f7f9fc;
+            box-shadow: inset -4px -4px 8px #ffffff, inset 4px 4px 8px #d1d9e6;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .soft-glow-primary {
+            box-shadow: 0 0 20px rgba(139, 147, 255, 0.3);
+        }
+        body {
+            background-color: #f7f9fc;
+            color: #191c1e;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#58f9c8",
+                        "background": "#f7f9fc",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "tertiary-fixed-dim": "#f6ba87",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f7f9fc",
+                        "surface-dim": "#d8dadd",
+                        "inverse-primary": "#bec2ff",
+                        "surface-container": "#eceef1",
+                        "on-secondary-container": "#007055",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary": "#4b53bb",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#bec2ff",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f4",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#1d238f",
+                        "primary-fixed": "#e0e0ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "secondary-fixed-dim": "#34dfaf",
+                        "outline-variant": "#c6c5d5",
+                        "on-primary-fixed-variant": "#3239a2",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-secondary-fixed": "#002117",
+                        "on-surface-variant": "#464652",
+                        "on-primary-fixed": "#00016d",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-bright": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#767684",
+                        "on-tertiary-container": "#502b03",
+                        "secondary-fixed": "#5cfcca",
+                        "surface-container-high": "#e6e8eb",
+                        "on-tertiary-fixed-variant": "#663d15",
+                        "secondary": "#006c52",
+                        "primary-container": "#8b93ff",
+                        "surface-tint": "#4b53bb",
+                        "on-surface": "#191c1e",
+                        "tertiary": "#82542a",
+                        "surface-container-highest": "#e0e3e6",
+                        "tertiary-container": "#c89161",
+                        "surface-variant": "#e0e3e6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "48px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "margin": "32px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "label-bold": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-background min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 dark:bg-slate-900/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)] font-['Plus_Jakarta_Sans'] font-medium">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#8B93FF] tracking-tight">BrainOS</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 hover:bg-white/40 transition-colors px-3 py-1 rounded-lg" href="/">Dashboard</a>
+<a class="text-slate-500 hover:bg-white/40 transition-colors px-3 py-1 rounded-lg" href="/library">Notes</a>
+<a class="text-[#8B93FF] font-bold px-3 py-1 rounded-lg" href="/insights">Insights</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="neumorphic-inset flex items-center px-3 py-1.5 rounded-full gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Search knowledge..." type="text"/>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full text-sm font-bold shadow-lg active:scale-95 duration-200">
+                Add New
+            </button>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 z-50 bg-white/65 dark:bg-slate-900/65 backdrop-blur-[30px] h-screen w-64 border-r border-white/20 shadow-[4px_0_24px_rgba(0,0,0,0.03)] pt-20">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-black text-[#8B93FF]">My Brain</h2>
+<p class="text-xs text-slate-500 uppercase tracking-widest">External Cortex</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-3">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/library">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/sources">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/graph">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Knowledge Graph</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF]" href="/insights">
+<span class="material-symbols-outlined" data-icon="insights" style="font-variation-settings: 'FILL' 1;">insights</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Insights</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-[#8B93FF]/5 transition-all duration-300" href="/privacy">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<div class="neumorphic-flat p-4 rounded-2xl border border-white/40">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-bold text-slate-500">STORAGE</span>
+<span class="text-xs text-[#8B93FF]">85%</span>
+</div>
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#8B93FF] h-full w-[85%]"></div>
+</div>
+<button class="mt-4 w-full py-2 bg-white text-[#8B93FF] border border-[#8B93FF]/20 text-xs font-bold rounded-lg hover:bg-[#8B93FF] hover:text-white transition-all">
+                    Upgrade Storage
+                </button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<!-- Header Section -->
+<header class="mb-10 flex justify-between items-end">
+<div>
+<h1 class="font-h1 text-h1 text-on-background mb-2">Cognitive Insights</h1>
+<p class="text-body-lg text-outline">Deep analytics on your neural node connections and learning velocity.</p>
+</div>
+<div class="flex gap-4">
+<div class="neumorphic-flat p-1 rounded-xl flex">
+<button class="px-4 py-2 text-xs font-bold bg-white rounded-lg shadow-sm text-primary">Weekly</button>
+<button class="px-4 py-2 text-xs font-bold text-outline">Monthly</button>
+<button class="px-4 py-2 text-xs font-bold text-outline">Yearly</button>
+</div>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Key Performance Metrics (Small Cards) -->
+<div class="col-span-12 md:col-span-3 neumorphic-flat p-6 rounded-3xl flex flex-col justify-between border border-white/50">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-2xl bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="auto_stories">auto_stories</span>
+</div>
+<span class="text-secondary font-bold text-xs">+12%</span>
+</div>
+<div class="mt-4">
+<h4 class="text-outline text-xs font-bold uppercase tracking-widest">Active Recall</h4>
+<p class="text-h2 font-h2">1,284 <span class="text-sm font-normal text-outline">items</span></p>
+</div>
+</div>
+<div class="col-span-12 md:col-span-3 neumorphic-flat p-6 rounded-3xl flex flex-col justify-between border border-white/50">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-2xl bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="bolt">bolt</span>
+</div>
+<span class="text-secondary font-bold text-xs">+5%</span>
+</div>
+<div class="mt-4">
+<h4 class="text-outline text-xs font-bold uppercase tracking-widest">Learning Velocity</h4>
+<p class="text-h2 font-h2">42 <span class="text-sm font-normal text-outline">nodes/day</span></p>
+</div>
+</div>
+<div class="col-span-12 md:col-span-3 neumorphic-flat p-6 rounded-3xl flex flex-col justify-between border border-white/50 soft-glow-primary">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-2xl bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="psychology">psychology</span>
+</div>
+<span class="text-tertiary font-bold text-xs">Stable</span>
+</div>
+<div class="mt-4">
+<h4 class="text-outline text-xs font-bold uppercase tracking-widest">Cognitive Load</h4>
+<p class="text-h2 font-h2">Lo <span class="text-sm font-normal text-outline">/ Balanced</span></p>
+</div>
+</div>
+<div class="col-span-12 md:col-span-3 neumorphic-flat p-6 rounded-3xl flex flex-col justify-between border border-white/50">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-2xl bg-slate-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600" data-icon="share_reviews">share_reviews</span>
+</div>
+<span class="text-error font-bold text-xs">-2%</span>
+</div>
+<div class="mt-4">
+<h4 class="text-outline text-xs font-bold uppercase tracking-widest">Retention Rate</h4>
+<p class="text-h2 font-h2">94.2 <span class="text-sm font-normal text-outline">%</span></p>
+</div>
+</div>
+<!-- Memory Heatmap (Large Feature) -->
+<div class="col-span-12 md:col-span-8 neumorphic-flat p-8 rounded-[40px] border border-white/50 relative overflow-hidden">
+<div class="glass-card absolute top-0 left-0 w-full h-16 px-8 flex items-center justify-between z-10 border-b border-white/20">
+<h3 class="font-h3 text-h3">Memory Persistence Map</h3>
+<div class="flex gap-2">
+<span class="text-xs text-outline flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-slate-200"></div> Low</span>
+<span class="text-xs text-outline flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-primary-container"></div> High</span>
+</div>
+</div>
+<div class="pt-16 grid grid-cols-7 gap-3">
+<!-- Generating a pseudo-heatmap grid -->
+<div class="col-span-7 flex justify-between text-[10px] font-bold text-outline uppercase mb-2">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+<!-- 5 weeks of data blocks -->
+<div class="contents">
+<!-- W1 -->
+<div class="h-24 rounded-2xl bg-primary/20 flex flex-col items-center justify-center text-xs font-bold text-primary">02<br/><span class="font-normal opacity-50">Feb</span></div>
+<div class="h-24 rounded-2xl bg-primary/40 flex flex-col items-center justify-center text-xs font-bold text-primary">03</div>
+<div class="h-24 rounded-2xl bg-primary/10 flex flex-col items-center justify-center text-xs font-bold text-primary">04</div>
+<div class="h-24 rounded-2xl bg-primary/80 flex flex-col items-center justify-center text-xs font-bold text-white shadow-lg shadow-primary/20">05</div>
+<div class="h-24 rounded-2xl bg-primary/30 flex flex-col items-center justify-center text-xs font-bold text-primary">06</div>
+<div class="h-24 rounded-2xl bg-primary/60 flex flex-col items-center justify-center text-xs font-bold text-white">07</div>
+<div class="h-24 rounded-2xl bg-primary/20 flex flex-col items-center justify-center text-xs font-bold text-primary">08</div>
+<!-- W2 -->
+<div class="h-24 rounded-2xl bg-primary/50 flex flex-col items-center justify-center text-xs font-bold text-white">09</div>
+<div class="h-24 rounded-2xl bg-primary/10 flex flex-col items-center justify-center text-xs font-bold text-primary">10</div>
+<div class="h-24 rounded-2xl bg-primary/90 flex flex-col items-center justify-center text-xs font-bold text-white shadow-xl shadow-primary/30 scale-105 border-2 border-white">11</div>
+<div class="h-24 rounded-2xl bg-primary/40 flex flex-col items-center justify-center text-xs font-bold text-primary">12</div>
+<div class="h-24 rounded-2xl bg-primary/70 flex flex-col items-center justify-center text-xs font-bold text-white">13</div>
+<div class="h-24 rounded-2xl bg-primary/30 flex flex-col items-center justify-center text-xs font-bold text-primary">14</div>
+<div class="h-24 rounded-2xl bg-primary/10 flex flex-col items-center justify-center text-xs font-bold text-primary">15</div>
+</div>
+</div>
+<div class="mt-8 p-4 neumorphic-inset rounded-2xl flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="lightbulb">lightbulb</span>
+<p class="text-sm text-outline">Your recall peak occurs on <span class="font-bold text-on-surface">Wednesdays around 11:00 AM</span>. Consider scheduling complex study sessions during this window.</p>
+</div>
+</div>
+<!-- Knowledge Categories breakdown (Radial/Pie Chart feel) -->
+<div class="col-span-12 md:col-span-4 neumorphic-flat p-8 rounded-[40px] border border-white/50 flex flex-col">
+<h3 class="font-h3 text-h3 mb-6">Knowledge Domains</h3>
+<div class="flex-1 flex flex-col items-center justify-center relative py-8">
+<!-- Pseudo-Radial Chart using SVG -->
+<svg class="w-48 h-48 transform -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#eceef1" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#8B93FF" stroke-dasharray="40 100" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#58f9c8" stroke-dasharray="25 100" stroke-dashoffset="-40" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#f6ba87" stroke-dasharray="20 100" stroke-dashoffset="-65" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#c6c5d5" stroke-dasharray="15 100" stroke-dashoffset="-85" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-h2 font-h2">10.2k</span>
+<span class="text-[10px] font-bold text-outline tracking-widest uppercase">Total Nodes</span>
+</div>
+</div>
+<div class="space-y-3 mt-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#8B93FF]"></div>
+<span class="text-sm font-medium">Philosophy &amp; Arts</span>
+</div>
+<span class="text-sm text-outline">40%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary-container"></div>
+<span class="text-sm font-medium">Tech &amp; Systems</span>
+</div>
+<span class="text-sm text-outline">25%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></div>
+<span class="text-sm font-medium">Personal Finance</span>
+</div>
+<span class="text-sm text-outline">20%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+<span class="text-sm font-medium">Miscellaneous</span>
+</div>
+<span class="text-sm text-outline">15%</span>
+</div>
+</div>
+</div>
+<!-- Learning Patterns Analysis -->
+<div class="col-span-12 md:col-span-12 neumorphic-flat p-8 rounded-[40px] border border-white/50">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-h3 text-h3">Learning Pattern Evolution</h3>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-sm font-bold text-primary px-3 py-1 bg-primary/5 rounded-full">
+<span class="material-symbols-outlined text-lg" data-icon="filter_list">filter_list</span> Filter
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Pattern 1 -->
+<div class="glass-card p-6 rounded-3xl border border-white/60">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<h4 class="font-bold">Rapid Synthesis</h4>
+<p class="text-xs text-outline">Last 7 days</p>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            You are connecting disparate notes 30% faster than your monthly average. The "Quantum Physics" and "Cooking" nodes show unexpected cross-linking.
+                        </p>
+<div class="mt-6 flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-400"></div>
+</div>
+</div>
+<!-- Pattern 2 -->
+<div class="glass-card p-6 rounded-3xl border border-white/60">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-2xl bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</div>
+<div>
+<h4 class="font-bold">Deep Recall Sink</h4>
+<p class="text-xs text-outline">At risk concepts</p>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Knowledge in "Ancient History" is fading. You haven't revisited these nodes in 42 days. Recommendation: Start a 10-minute active recall session.
+                        </p>
+<button class="mt-4 px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl shadow-md">Review Now</button>
+</div>
+<!-- Visual Insight Element -->
+<div class="relative group cursor-pointer overflow-hidden rounded-3xl h-full min-h-[200px]">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A serene digital 3D visualization representing neural pathways as glowing lavender threads connecting floating translucent pastel glass cubes in a clean, bright, minimalist void. The cubes contain faint geometric symbols. Soft volumetric lighting creates a dreamy, organized, and technologically advanced atmosphere following a light-mode aesthetic with soft-shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs1ZK8_xMBgdQUAIQdAvQy1I4xTGWpDyF_lBp9X3uI4NvuNZ5Ha03m-SgHGnFm_gkZhxRQdfEvc4h5VO-heGqfuaxoF1PA_CDbBmniuoytQHq-WNTE2JpGVc3cJVPwwIgDwnxaiFOILfkP16OR5PtSzUrLtc0aLPPjN4ptLXyDg5u_YYg17hDk7OKzOvDHEc7j2xZVDr8mHH12_oEBptjfmcY_3HnWbIJ69XwE-EFkrFuyOftQkVm6riKbeuOvBbM3QvDu8PvUtZcu"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent p-6 flex flex-col justify-end">
+<h4 class="text-white font-bold text-lg">Neural Density Visualizer</h4>
+<p class="text-white/80 text-xs">Explore your external brain in 3D space.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-[#8B93FF] text-white rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add" style="font-variation-settings: 'wght' 700;">add</span>
+</button>
+</body></html>

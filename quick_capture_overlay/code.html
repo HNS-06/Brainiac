@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#502b03",
+                        "primary-fixed-dim": "#bec2ff",
+                        "secondary-fixed": "#5cfcca",
+                        "on-tertiary-fixed-variant": "#663d15",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container-high": "#e6e8eb",
+                        "outline-variant": "#c6c5d5",
+                        "inverse-primary": "#bec2ff",
+                        "surface-variant": "#e0e3e6",
+                        "tertiary-container": "#c89161",
+                        "surface-dim": "#d8dadd",
+                        "tertiary-fixed-dim": "#f6ba87",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#8b93ff",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary-fixed": "#ffdcc1",
+                        "tertiary": "#82542a",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-secondary-fixed-variant": "#00513d",
+                        "inverse-surface": "#2d3133",
+                        "on-surface-variant": "#464652",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fc",
+                        "surface-tint": "#4b53bb",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#767684",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#1d238f",
+                        "surface": "#f7f9fc",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eceef1",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eff1f4",
+                        "on-primary-fixed-variant": "#3239a2",
+                        "secondary-container": "#58f9c8",
+                        "on-secondary-container": "#007055",
+                        "on-primary-fixed": "#00016d",
+                        "primary": "#4b53bb",
+                        "on-secondary-fixed": "#002117",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#34dfaf",
+                        "secondary": "#006c52",
+                        "primary-fixed": "#e0e0ff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "48px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "margin": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h2": ["28px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .neumorphic-card {
+            background: #F0F2F5;
+            box-shadow: -8px -8px 16px rgba(255, 255, 255, 1), 
+                         8px 8px 16px rgba(163, 177, 198, 0.4);
+        }
+        .neumorphic-inset {
+            background: #F0F2F5;
+            box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 1), 
+                        inset 4px 4px 8px rgba(163, 177, 198, 0.3);
+        }
+        .neumorphic-button-active:active {
+            box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 1), 
+                        inset 2px 2px 5px rgba(163, 177, 198, 0.5);
+        }
+        .soft-glow {
+            box-shadow: 0 0 15px rgba(139, 147, 255, 0.3);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen overflow-hidden">
+<!-- Dashboard Background (Blurred Layer) -->
+<div class="fixed inset-0 z-0 blur-md opacity-60">
+<!-- TopNavBar Mock -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)]">
+<div class="text-xl font-bold text-[#8B93FF] tracking-tight font-h1">BrainOS</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+<span class="material-symbols-outlined text-slate-500">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar Mock -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 z-50 bg-white/65 backdrop-blur-[30px] w-64 border-r border-white/20">
+<div class="px-6 mb-8">
+<div class="text-lg font-black text-[#8B93FF]">My Brain</div>
+<div class="text-xs text-slate-500">External Cortex</div>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<div class="flex items-center gap-3 p-3 bg-gradient-to-r from-[#8B93FF]/10 to-transparent text-[#8B93FF] font-semibold border-r-2 border-[#8B93FF]">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-600">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm">Memory Timeline</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-600">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="text-sm">Clusters</span>
+</div>
+</nav>
+</aside>
+<!-- Background Bento Grid Content -->
+<main class="ml-64 mt-16 p-gutter grid grid-cols-12 gap-gutter">
+<div class="col-span-8 h-64 neumorphic-card rounded-2xl"></div>
+<div class="col-span-4 h-64 neumorphic-card rounded-2xl"></div>
+<div class="col-span-4 h-96 neumorphic-card rounded-2xl"></div>
+<div class="col-span-8 h-96 neumorphic-card rounded-2xl"></div>
+</main>
+</div>
+<!-- Darkened Overlay -->
+<div class="fixed inset-0 z-50 bg-on-surface/10 backdrop-blur-sm flex items-center justify-center p-6">
+<!-- Quick Capture Widget -->
+<div class="w-full max-w-xl neumorphic-card rounded-2xl p-sm border border-[#8B93FF]/20 soft-glow relative overflow-hidden">
+<!-- Glass Title Header -->
+<div class="glass-panel px-6 py-4 rounded-xl flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-2xl bg-primary-container flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" data-weight="fill">bolt</span>
+</div>
+<div>
+<h2 class="font-h3 text-h3 text-on-surface leading-tight">Quick Capture</h2>
+<p class="text-xs text-slate-500">Capturing to <span class="font-bold text-[#8B93FF]">Memory Timeline</span></p>
+</div>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-slate-400">close</span>
+</button>
+</div>
+<!-- Input Area -->
+<div class="px-2 pb-2">
+<div class="neumorphic-inset rounded-2xl p-4 mb-4 group focus-within:ring-2 focus-within:ring-[#8B93FF]/30 transition-all">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-lg font-body-lg placeholder-slate-400 resize-none h-32" placeholder="What's on your mind? Type or use voice..."></textarea>
+<!-- Formatting & Voice Row -->
+<div class="flex items-center justify-between mt-4">
+<div class="flex gap-2">
+<button class="p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-white/50 transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<button class="p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-white/50 transition-colors">
+<span class="material-symbols-outlined">image</span>
+</button>
+<button class="p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-white/50 transition-colors">
+<span class="material-symbols-outlined">link</span>
+</button>
+</div>
+<!-- Playful Voice Button -->
+<button class="flex items-center gap-2 bg-gradient-to-br from-[#8B93FF] to-[#A3AAFF] text-white px-4 py-2 rounded-full shadow-lg shadow-[#8B93FF]/30 neumorphic-button-active active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-weight="fill">mic</span>
+<span class="font-label-bold text-label-bold">Voice</span>
+</button>
+</div>
+</div>
+<!-- Tag Selection -->
+<div class="px-2 mb-6">
+<span class="font-label-bold text-[11px] uppercase tracking-wider text-slate-400 mb-2 block">Quick Tags</span>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-full glass-panel border-none text-sm font-medium text-on-surface-variant hover:bg-primary-fixed-dim hover:text-primary transition-all flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            Idea
+                        </button>
+<button class="px-3 py-1.5 rounded-full glass-panel border-none text-sm font-medium text-on-surface-variant hover:bg-primary-fixed-dim hover:text-primary transition-all flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                            To-do
+                        </button>
+<button class="px-3 py-1.5 rounded-full glass-panel border-none text-sm font-medium text-on-surface-variant hover:bg-primary-fixed-dim hover:text-primary transition-all flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                            Reference
+                        </button>
+<button class="px-3 py-1.5 rounded-full glass-panel border-none text-sm font-medium text-on-surface-variant hover:bg-primary-fixed-dim hover:text-primary transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">add</span>
+                            Tag
+                        </button>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex gap-4">
+<button class="flex-1 py-4 rounded-xl font-h3 text-on-surface-variant neumorphic-card neumorphic-button-active border border-white transition-all flex items-center justify-center gap-2">
+                        Cancel
+                    </button>
+<button class="flex-[2] py-4 rounded-xl font-h3 bg-primary text-white shadow-xl shadow-primary/30 neumorphic-button-active active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">send</span>
+                        Save to Cortex
+                    </button>
+</div>
+</div>
+<!-- Background Aesthetic Image -->
+<div class="absolute -right-16 -bottom-16 w-48 h-48 opacity-20 pointer-events-none">
+<img alt="Abstract Intelligence" class="w-full h-full object-contain" data-alt="A minimalist 3D abstract brain structure made of glowing lavender and soft blue glass fibers floating in a pristine white void. The lighting is ethereal and soft, creating a feeling of high-tech intelligence and digital serenity. The style is clean neomorphism with gentle gradients and smooth surfaces, blending perfectly with a light mode UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUHMBOcqqQLEY5TrA3tlQnZEiJSXI1Ly4pl0pvnX74ibWD1UW1_Eism-86lp2KpRvhPKRZCrXwVacUIwq88FOHUSYqs4wrEW5NHcirhLExOxAvUE7ezrfH-uOpGoK_YcOyGKc_dHhiR3Cvn7LnZoImYln45McMs9rzcfJg1UlUE7Dkq5WclMj4WifgwQuXgMZxiZe724WjFJOx6I_ED5g_VEveRn_yy-U6XB7ClNfm-K7B82eEGXAVxWWI5TaYLHWz7ZdlfngRr4MP"/>
+</div>
+</div>
+<!-- Hotkey Hint -->
+<div class="fixed bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30">
+<span class="text-xs font-label-bold text-white/80">Press</span>
+<div class="px-2 py-1 bg-white/40 rounded text-[10px] font-bold text-white border border-white/50">⌘</div>
+<div class="px-2 py-1 bg-white/40 rounded text-[10px] font-bold text-white border border-white/50">K</div>
+<span class="text-xs font-label-bold text-white/80">to save instantly</span>
+</div>
+</div>
+</body></html>
