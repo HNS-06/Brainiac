@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #4b53bb;
+  --primary-container: #8b93ff;
+  --secondary: #006c52;
+  --background: #f7f9fc;
+  --on-surface: #191c1e;
+  --outline: #767684;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface font-inter;
+  }
+}
+
+@layer components {
+  .neumorphic-card {
+    box-shadow: -8px -8px 16px rgba(255, 255, 255, 1), 8px 8px 16px rgba(186, 199, 213, 0.5);
+    background: #f7f9fc;
+    @apply transition-all duration-300;
+  }
+  
+  .neumorphic-flat {
+    box-shadow: -8px -8px 16px rgba(255, 255, 255, 1), 8px 8px 16px rgba(186, 199, 213, 0.3);
+    background: #f7f9fc;
+  }
+
+  .neumorphic-inset {
+    box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.8), inset 4px 4px 8px rgba(186, 199, 213, 0.4);
+    background: #f7f9fc;
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .ai-bubble {
+    background: linear-gradient(135deg, #8B93FF 0%, #4b53bb 100%);
+    @apply text-white shadow-lg;
+  }
+
+  .neumorphic-button {
+    @apply neumorphic-card flex items-center justify-center cursor-pointer active:scale-95 transition-transform;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #8B93FF;
+    border-radius: 10px;
+  }
+}

@@ -65,3 +65,10 @@ sessions/
 
 # Optional generated files
 npm-debug.log
+
+# Next.js
+.next/
+frontend/.next/
+
+# Firebase
+*firebase-service-account.json
