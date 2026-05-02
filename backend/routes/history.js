@@ -11,11 +11,12 @@ router.get('/', verifyAuth, async (req, res) => {
     const userId = req.user.uid;
     const snapshot = await db.collection('history')
       .where('userId', '==', userId)
-      .orderBy('timestamp', 'desc')
       .limit(50)
       .get();
       
     const history = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // Sort in memory to avoid Firestore index requirement
+    history.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     res.json(history);
   } catch (error) {
     console.error('History Route Error:', error);

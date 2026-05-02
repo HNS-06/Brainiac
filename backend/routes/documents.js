@@ -38,10 +38,10 @@ router.get('/', verifyAuth, async (req, res) => {
     const userId = req.user.uid;
     const snapshot = await db.collection('documents')
       .where('userId', '==', userId)
-      .orderBy('uploadedAt', 'desc')
       .get();
       
     const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    docs.sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime());
     res.json(docs);
   } catch (error) {
     console.error('Fetch docs error:', error);

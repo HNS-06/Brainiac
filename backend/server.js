@@ -41,6 +41,7 @@ const agentRoutes = require('./routes/agents');
 const insightRoutes = require('./routes/insights');
 const dashboardRoutes = require('./routes/dashboard');
 const historyRoutes = require('./routes/history');
+const userRoutes = require('./routes/user');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
@@ -48,11 +49,14 @@ app.use('/api/rag', ragRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/insights', insightRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/history', historyRoutes);
+app.use('/api/user', userRoutes);
 
 // Error Handling
 app.use((err, req, res, next) => {
+  console.error('SERVER_ERROR:', err.message);
   console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error' });
+  res.status(500).json({ error: 'Internal Server Error', message: err.message });
 });
 
 app.listen(PORT, () => {

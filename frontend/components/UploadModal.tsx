@@ -24,6 +24,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }: { isOp
       setFiles([])
     } catch (error) {
       console.error('Upload failed', error)
+      alert('Upload failed. Please ensure the backend is running and you have active API keys.')
     } finally {
       setUploading(false)
     }

@@ -50,4 +50,11 @@ export const dashboardApi = {
   getMetrics: () => api.get('/dashboard'),
 };
 
+export const userApi = {
+  getProfile: () => api.get('/user/profile'),
+  updateProfile: (data: { displayName: string }) => api.post('/user/profile', data),
+  exportData: () => api.get('/user/export'),
+  wipeCortex: () => api.delete('/user/wipe'),
+}
+
 export default api;

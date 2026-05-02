@@ -10,6 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 async function processDocument(file, userId) {
   try {
     let text = '';
+    // Basic support for PDF and Text
     if (file.mimetype === 'application/pdf') {
       const data = await pdf(file.buffer);
       text = data.text;
@@ -18,7 +19,7 @@ async function processDocument(file, userId) {
     }
 
     const docId = uuidv4();
-    const chunks = chunkText(text, 500, 50); // ~500 tokens/chars with overlap
+    const chunks = chunkText(text, 500, 50); 
 
     const vectors = [];
     for (let i = 0; i < chunks.length; i++) {
@@ -38,9 +39,23 @@ async function processDocument(file, userId) {
       });
     }
 
+    // 1. Store chunks in Pinecone for RAG retrieval
+    if (vectors.length > 0) {
+      try {
+        await upsertVectors(vectors, userId);
+      } catch (ve) {
+        console.warn('Vector indexing failed, but metadata will be stored:', ve.message);
+      }
+    }
+
     // 2. Generate AI Key Map (Topics, Subtopics, Relationships)
     const { generateInsights } = require('./geminiService');
-    const keyMapResult = await generateInsights([file.originalname], `Extract a structured knowledge map from this text: "${text.substring(0, 5000)}". Format as JSON with topics, subtopics, and relationships.`);
+    let keyMapResult = { topics: [], subtopics: [], relationships: [] };
+    try {
+      keyMapResult = await generateInsights([file.originalname], `Extract a structured knowledge map from this text: "${text.substring(0, 5000)}". Format as JSON with topics, subtopics, and relationships.`);
+    } catch (ie) {
+      console.warn('AI Insight generation failed for this document.');
+    }
 
     // 3. Store metadata in Firestore for listing
     await db.collection('documents').doc(docId).set({
@@ -70,7 +85,7 @@ async function processDocument(file, userId) {
 }
 
 /**
- * Simple character-based chunking (for demo, real implementation would use token-based)
+ * Simple character-based chunking
  */
 function chunkText(text, size, overlap) {
   const chunks = [];
