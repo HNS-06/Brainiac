@@ -5,22 +5,27 @@ const { verifyAuth } = require('../middlewares/authMiddleware');
 
 router.use(verifyAuth);
 
-router.get('/', async (req, res) => {
+router.get('/dashboard', async (req, res) => {
   try {
     const userId = req.user.uid;
 
     // Fetch user's documents
-    const docsSnapshot = await db.collection('documents')
-      .where('userId', '==', userId)
-      .get();
+    let docCount = 0;
+    try {
+      const docs = await db.collection('documents').where('userId', '==', userId).get();
+      docCount = docs.size;
+    } catch (e) {
+      console.warn('Dashboard Firestore Warning:', e.message);
+    }
       
     // Fetch user's chats
-    const chatsSnapshot = await db.collection('chats')
-      .where('userId', '==', userId)
-      .get();
-
-    const docCount = docsSnapshot.size;
-    const chatCount = chatsSnapshot.size;
+    let chatCount = 0;
+    try {
+      const chats = await db.collection('chats').where('userId', '==', userId).get();
+      chatCount = chats.size;
+    } catch (e) {
+      console.warn('Dashboard Firestore Warning:', e.message);
+    }
 
     // 1. Compute Focus Score (Dynamic based on activity)
     // Activity = docs + chats. Max score 100.

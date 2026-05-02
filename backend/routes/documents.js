@@ -5,28 +5,52 @@ const { db } = require('../utils/firebase');
 const { processDocument } = require('../services/documentService');
 const { verifyAuth } = require('../middlewares/authMiddleware');
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB
+});
 
 /**
  * Upload and process multiple documents
  */
 router.post('/upload', verifyAuth, upload.array('files'), async (req, res) => {
   try {
-    const files = req.files;
-    if (!files || files.length === 0) return res.status(400).json({ error: 'No files uploaded' });
+    console.log('--- UPLOAD START ---');
+    console.log('FILES RECEIVED:', req.files);
+    console.log('USER ID:', req.user?.uid);
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        error: "No files uploaded. Please select files first."
+      });
+    }
 
     const userId = req.user.uid;
-    const documentIds = [];
+    const processedFiles = [];
 
-    for (const file of files) {
-      const docId = await processDocument(file, userId);
-      documentIds.push(docId);
+    for (const file of req.files) {
+      try {
+        console.log(`Processing file: ${file.originalname}`);
+        const docId = await processDocument(file, userId);
+        
+        processedFiles.push({
+          id: docId,
+          name: file.originalname,
+          type: file.mimetype,
+          size: file.size
+        });
+      } catch (fileError) {
+        console.error(`FILE PROCESS ERROR for ${file.originalname}:`, fileError);
+      }
     }
-    
-    res.json({ message: 'Documents processed and indexed', documentIds });
+
+    res.status(200).json({
+      message: "Files uploaded successfully",
+      files: processedFiles
+    });
   } catch (error) {
-    console.error('Upload route error:', error);
-    res.status(500).json({ error: 'Failed to process documents' });
+    console.error("UPLOAD ERROR:", error);
+    res.status(500).json({ error: error.message });
   }
 });
 

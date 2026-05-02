@@ -14,11 +14,15 @@ const indexName = process.env.PINECONE_INDEX || 'brainiac';
  */
 async function upsertVectors(vectors, userId) {
   try {
+    console.log(`Upserting ${vectors.length} vectors to index: ${indexName}, namespace: ${userId}`);
     const index = pc.index(indexName).namespace(userId);
     await index.upsert(vectors);
   } catch (error) {
-    console.error('Pinecone Upsert Error:', error);
-    throw new Error('Failed to store vectors in Pinecone');
+    console.error('Pinecone Upsert Error:', error.message);
+    if (error.message.includes('404')) {
+      console.error(`FATAL: Pinecone index "${indexName}" not found. Please create it in your Pinecone console.`);
+    }
+    throw new Error(`Failed to store vectors in Pinecone: ${error.message}`);
   }
 }
 

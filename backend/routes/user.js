@@ -10,18 +10,26 @@ router.use(verifyAuth);
  */
 router.get('/profile', async (req, res) => {
   try {
-    const userDoc = await db.collection('users').doc(req.user.uid).get();
+    const userRef = db.collection('users').doc(req.user.uid);
+    const userDoc = await userRef.get();
+    
     if (!userDoc.exists) {
-      return res.json({ 
-        uid: req.user.uid, 
-        email: req.user.email, 
-        cortexId: 'BRAIN-PENDING',
-        displayName: req.user.email.split('@')[0]
-      });
+      // Auto-create profile if missing
+      const newProfile = {
+        uid: req.user.uid,
+        email: req.user.email,
+        cortexId: `BRAIN-${Math.floor(100000 + Math.random() * 900000)}`,
+        displayName: req.user.email.split('@')[0],
+        createdAt: new Date().toISOString()
+      };
+      await userRef.set(newProfile);
+      return res.json(newProfile);
     }
+    
     res.json(userDoc.data());
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch profile' });
+    console.error('Profile Error:', error);
+    res.status(500).json({ error: 'Failed to fetch or create profile' });
   }
 });
 
@@ -44,9 +52,10 @@ router.post('/profile', async (req, res) => {
 router.get('/export', async (req, res) => {
   try {
     const userId = req.user.uid;
-    const [docs, chats, user] = await Promise.all([
+    const [docs, chats, history, user] = await Promise.all([
       db.collection('documents').where('userId', '==', userId).get(),
       db.collection('chats').where('userId', '==', userId).get(),
+      db.collection('history').where('userId', '==', userId).get(),
       db.collection('users').doc(userId).get()
     ]);
 
@@ -54,12 +63,15 @@ router.get('/export', async (req, res) => {
       profile: user.data(),
       documents: docs.docs.map(d => d.data()),
       chats: chats.docs.map(d => d.data()),
+      history: history.docs.map(d => d.data()),
       exportedAt: new Date().toISOString()
     };
 
+    console.log(`Exported data for user: ${userId}`);
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: 'Export failed' });
+    console.error('Export Error:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 

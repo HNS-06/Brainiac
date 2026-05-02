@@ -10,23 +10,34 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }: { isOp
   if (!isOpen) return null
 
   const handleUpload = async () => {
-    if (files.length === 0) return
-    setUploading(true)
-    const formData = new FormData()
-    files.forEach(file => {
-      formData.append('files', file)
-    })
-    
     try {
-      await documentApi.upload(formData)
-      onUploadSuccess()
-      onClose()
-      setFiles([])
-    } catch (error) {
-      console.error('Upload failed', error)
-      alert('Upload failed. Please ensure the backend is running and you have active API keys.')
+      if (!files || files.length === 0) {
+        alert("Please select files first");
+        return;
+      }
+
+      setUploading(true);
+      const formData = new FormData();
+
+      files.forEach((file) => {
+        console.log(`Appending file to FormData: ${file.name}`);
+        formData.append("files", file); // MUST MATCH BACKEND
+      });
+
+      console.log("FILES BEING SENT TO BACKEND:", files);
+
+      await documentApi.upload(formData);
+      
+      onUploadSuccess();
+      onClose();
+      setFiles([]);
+      alert("Upload complete!");
+    } catch (error: any) {
+      console.error('Upload Error Details:', error);
+      const errorMsg = error.response?.data?.error || error.message || 'Unknown error';
+      alert(`Upload failed: ${errorMsg}`);
     } finally {
-      setUploading(false)
+      setUploading(false);
     }
   }
 

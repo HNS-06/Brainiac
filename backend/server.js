@@ -15,18 +15,20 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'DELETE'],
+  origin: true, // Allow all origins for debugging
+  methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
-app.use(express.json());
-app.use(apiLimiter); // Apply global rate limiting
+
+// Request Logger
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+// app.use(apiLimiter); // Temporarily disabled for debugging
 
 // Root & Health Check
 app.get('/', (req, res) => {
@@ -47,10 +49,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/rag', ragRoutes);
 app.use('/api/agents', agentRoutes);
-app.use('/api/insights', insightRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/history', historyRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/history', historyRoutes);
+app.use('/api', dashboardRoutes);
+app.use('/api', insightRoutes);
 
 // Error Handling
 app.use((err, req, res, next) => {
@@ -59,6 +61,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error', message: err.message });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Brainiac Production Backend running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Brainiac Production Backend running on http://localhost:${PORT}`);
+  console.log(`📡 Heartbeat: Models and Routes initialized at ${new Date().toLocaleTimeString()}`);
 });
