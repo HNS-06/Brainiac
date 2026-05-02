@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import Sidebar from './Sidebar'
-import TopNavBar from './TopNavBar'
 import { ragApi } from '../services/api'
 
 interface Message {
@@ -16,6 +14,7 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [mode, setMode] = useState('Quick')
   const [sources, setSources] = useState<{ title: string, snippet: string }[]>([])
   const chatEndRef = useRef<HTMLDivElement>(null)
 
@@ -46,7 +45,7 @@ export default function Chat() {
       const { auth } = await import('../services/firebase')
       const token = await auth.currentUser?.getIdToken()
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rag/stream?query=${encodeURIComponent(currentInput)}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rag/stream?query=${encodeURIComponent(currentInput)}&mode=${mode}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -103,12 +102,8 @@ export default function Chat() {
 
 
   return (
-    <div className="min-h-screen bg-background">
-      <TopNavBar />
-      <Sidebar />
-
-      <main className="md:ml-64 pt-16 h-[calc(100vh-64px)] flex flex-col md:flex-row">
-        <section className="flex-1 flex flex-col h-full relative p-6">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-120px)] -mt-6">
+      <section className="flex-1 flex flex-col h-full relative">
           <div className="flex-1 overflow-y-auto space-y-6 px-4 pb-12 custom-scrollbar">
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center py-12 space-y-4 opacity-60">
@@ -157,12 +152,23 @@ export default function Chat() {
               <button className="p-2 text-outline hover:text-primary transition-colors">
                 <span className="material-symbols-outlined">attach_file</span>
               </button>
+              <div className="flex gap-2 mr-2">
+                {['Quick', 'Study', 'Research'].map(m => (
+                  <button 
+                    key={m}
+                    onClick={() => setMode(m)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${mode === m ? 'bg-primary text-white shadow-md' : 'text-slate-400 hover:bg-slate-100'}`}
+                  >
+                    {m}
+                  </button>
+                ))}
+              </div>
               <textarea 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
                 className="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-medium resize-none" 
-                placeholder="Type your inquiry here..." 
+                placeholder={`Type your inquiry (${mode} Mode)...`} 
                 rows={1}
               />
               <button 
@@ -192,7 +198,6 @@ export default function Chat() {
             ))}
           </div>
         </aside>
-      </main>
     </div>
   )
 }

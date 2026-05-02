@@ -1,41 +1,51 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Sidebar from './Sidebar'
-import TopNavBar from './TopNavBar'
+
 import UploadModal from './UploadModal'
 import { useAuth } from '../context/AuthContext'
-import { insightApi } from '../services/api'
+import { insightApi, dashboardApi } from '../services/api'
 
 export default function Dashboard() {
   const { user } = useAuth()
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
   const [insights, setInsights] = useState<string>('')
+  const [dashboardData, setDashboardData] = useState<{
+    focusTrend: number[],
+    focusScore: number,
+    synthesisAlert: { message: string, topics: number },
+    heatmap: number[]
+  } | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchInsights = async () => {
+    const fetchData = async () => {
       try {
-        const res = await insightApi.getLatest()
-        setInsights(res.data.insights)
+        const [insightsRes, dashRes] = await Promise.all([
+          insightApi.getLatest().catch(() => ({ data: { insights: '' } })),
+          dashboardApi.getMetrics().catch(() => ({ data: null }))
+        ])
+        setInsights(insightsRes.data.insights)
+        if (dashRes.data) {
+          setDashboardData(dashRes.data)
+        }
       } catch (err) {
-        console.error('Failed to fetch insights', err)
+        console.error('Failed to fetch dashboard data', err)
       } finally {
         setLoading(false)
       }
     }
-    fetchInsights()
+    fetchData()
   }, [])
 
   const displayName = user?.displayName || user?.email?.split('@')[0] || 'Thinker'
 
-  return (
-    <div className="min-h-screen bg-background">
-      <TopNavBar onUploadClick={() => setIsUploadModalOpen(true)} />
-      <Sidebar />
+  const focusTrend = dashboardData?.focusTrend || [40,60,45,80,90,100,70];
+  const focusScore = dashboardData?.focusScore || 0;
+  const synthesisAlert = dashboardData?.synthesisAlert || { message: "Analyzing your knowledge base...", topics: 0 };
+  const heatmap = dashboardData?.heatmap || Array.from({length: 42}, () => 5);
 
-      <main className="md:ml-64 pt-24 px-6 pb-12">
-        <div className="max-w-7xl mx-auto">
+  return (
+    <div className="max-w-7xl mx-auto">
           {/* Welcome Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
             <div>
@@ -51,9 +61,8 @@ export default function Dashboard() {
                   <span className="p-1.5 rounded-lg bg-primary/10 text-primary">
                     <span className="material-symbols-outlined text-lg">auto_awesome</span>
                   </span>
-                  Daily Insights
+                  Daily Metrics
                 </h2>
-                <button className="text-sm font-semibold text-primary hover:underline">View All Report</button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -63,13 +72,13 @@ export default function Dashboard() {
                     <div className="w-10 h-10 rounded-xl bg-[#8B93FF]/10 flex items-center justify-center text-[#8B93FF]">
                       <span className="material-symbols-outlined">track_changes</span>
                     </div>
-                    <span className="text-xs font-bold text-secondary px-2 py-1 bg-secondary-container/20 rounded-lg">+12%</span>
+                    <span className="text-xs font-bold text-secondary px-2 py-1 bg-secondary-container/20 rounded-lg">{focusScore} / 100</span>
                   </div>
                   <h3 className="text-xl font-bold mb-1">Focus Score</h3>
-                  <p className="text-sm text-outline mb-4">Quality of neural connections today</p>
+                  <p className="text-sm text-outline mb-4">Based on your recent engagement</p>
                   <div className="flex items-end gap-1 h-12">
-                    {[40,60,45,80,90,100,70].map((height, i) => (
-                      <div key={i} className="w-full bg-primary/20 rounded-t-md" style={{height: `${height}%`}}></div>
+                    {focusTrend.map((height, i) => (
+                      <div key={i} className="w-full bg-primary/20 rounded-t-md transition-all duration-1000" style={{height: `${height}%`}}></div>
                     ))}
                   </div>
                 </div>
@@ -81,11 +90,14 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <h3 className="text-xl font-bold mb-1">Synthesis Alert</h3>
-                  <p className="text-sm text-outline mb-4">3 concepts in "Quantum Computing" need bridging.</p>
+                  <p className="text-sm text-outline mb-4">{synthesisAlert.message}</p>
                   <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
-                    <div className="w-8 h-8 rounded-full bg-[#8B93FF] flex items-center justify-center text-[10px] text-white font-bold">+1</div>
+                    {Array.from({length: Math.min(synthesisAlert.topics, 3)}).map((_, i) => (
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+                    ))}
+                    {synthesisAlert.topics > 3 && (
+                      <div className="w-8 h-8 rounded-full bg-[#8B93FF] flex items-center justify-center text-[10px] text-white font-bold">+{synthesisAlert.topics - 3}</div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -98,12 +110,9 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="grid grid-cols-12 gap-3">
-                  {Array.from({length: 42}, (_, i) => {
-                    const intensities = [5,20,10,40,5,60,20,5,80,10,30,10,10,50,5,10,90,20,10,10,5,20,10,40,5,10,20,5,10,10,70,20,10,10,50,10]
-                    return (
-                      <div key={i} className="aspect-square rounded-xl" style={{backgroundColor: `rgba(75, 83, 187, ${intensities[i % intensities.length]/100})`}}></div>
-                    )
-                  })}
+                  {heatmap.map((intensity, i) => (
+                    <div key={i} className="aspect-square rounded-xl transition-colors duration-1000" style={{backgroundColor: `rgba(75, 83, 187, ${intensity/100})`}}></div>
+                  ))}
                 </div>
               </div>
             </section>
@@ -122,19 +131,30 @@ export default function Dashboard() {
                    </p>
                    {loading && <div className="w-full h-24 bg-slate-100 animate-pulse rounded-2xl"></div>}
                 </div>
+
+                <div className="mt-10">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-sm font-bold text-outline uppercase tracking-wider">Reminders</h3>
+                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { task: 'Review Neural Docs', time: 'Today, 4:00 PM' },
+                      { task: 'Export Brain Map', time: 'Tomorrow' },
+                    ].map((rem, i) => (
+                      <div key={i} className="neumorphic-inset p-3 rounded-xl flex items-center gap-3">
+                        <span className="material-symbols-outlined text-sm text-primary">notifications</span>
+                        <div>
+                          <p className="text-xs font-bold text-on-surface">{rem.task}</p>
+                          <p className="text-[10px] text-outline">{rem.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </aside>
           </div>
-        </div>
-      </main>
-
-      <UploadModal 
-        isOpen={isUploadModalOpen} 
-        onClose={() => setIsUploadModalOpen(false)} 
-        onUploadSuccess={() => {
-          console.log('Upload success!')
-        }}
-      />
     </div>
   )
 }

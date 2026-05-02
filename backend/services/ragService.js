@@ -1,10 +1,11 @@
-const { generateEmbedding, generateStreamingChat } = require('./geminiService');
+const { generateEmbedding } = require('./geminiService');
+const { generateStreamingChatGroq } = require('./groqService');
 const { queryVectors } = require('./vectorService');
 
 /**
  * Perform RAG with streaming support
  */
-async function performStreamingRAG(query, userId) {
+async function performStreamingRAG(query, userId, mode = 'Quick') {
   try {
     // 1. Generate query embedding
     const queryEmbedding = await generateEmbedding(query);
@@ -17,8 +18,8 @@ async function performStreamingRAG(query, userId) {
       .map(match => `[Source: ${match.title}] ${match.text}`)
       .join('\n\n');
 
-    // 4. Generate streaming response
-    const stream = await generateStreamingChat(query, contextText);
+    // 4. Generate streaming response (using Groq for ultra-fast Llama 3)
+    const stream = await generateStreamingChatGroq(query, contextText, mode);
     
     return {
       stream,

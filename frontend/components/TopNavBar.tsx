@@ -7,7 +7,7 @@ export default function TopNavBar({ onUploadClick }: { onUploadClick?: () => voi
   return (
     <header className="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)]">
       <div className="flex items-center gap-8">
-        <Link href="/" className="text-xl font-bold text-[#8B93FF] tracking-tight font-jakarta md:hidden">BrainOS</Link>
+        <Link href="/" className="text-xl font-bold text-[#8B93FF] tracking-tight font-jakarta md:hidden">Brainiac</Link>
         <div className="hidden md:flex items-center neumorphic-inset rounded-full px-4 py-1.5 w-64 bg-surface-container-low border border-white/40 ml-[256px]">
           <span className="material-symbols-outlined text-slate-400 text-lg mr-2">search</span>
           <input className="bg-transparent border-none focus:ring-0 text-sm w-full p-0" placeholder="Search your mind..." type="text"/>

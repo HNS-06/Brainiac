@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: 'AI-native knowledge management system',
 }
 
+import AppLayout from '../components/AppLayout'
+
 export default function RootLayout({
   children,
 }: {
@@ -23,7 +25,9 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${jakarta.variable} font-inter bg-background text-on-background`}>
         <AuthProvider>
-          {children}
+          <AppLayout>
+            {children}
+          </AppLayout>
         </AuthProvider>
       </body>
     </html>

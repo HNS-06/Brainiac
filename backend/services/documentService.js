@@ -38,17 +38,28 @@ async function processDocument(file, userId) {
       });
     }
 
-    // 1. Store chunks in Pinecone
-    await upsertVectors(vectors, userId);
+    // 2. Generate AI Key Map (Topics, Subtopics, Relationships)
+    const { generateInsights } = require('./geminiService');
+    const keyMapResult = await generateInsights([file.originalname], `Extract a structured knowledge map from this text: "${text.substring(0, 5000)}". Format as JSON with topics, subtopics, and relationships.`);
 
-    // 2. Store metadata in Firestore for listing
+    // 3. Store metadata in Firestore for listing
     await db.collection('documents').doc(docId).set({
       id: docId,
       name: file.originalname,
       type: file.mimetype,
       userId: userId,
       uploadedAt: new Date().toISOString(),
-      chunkCount: chunks.length
+      chunkCount: chunks.length,
+      keyMap: keyMapResult
+    });
+
+    // 4. Log to history
+    await db.collection('history').add({
+      userId,
+      type: 'UPLOAD',
+      title: `Uploaded ${file.originalname}`,
+      timestamp: new Date().toISOString(),
+      details: { docId }
     });
 
     return docId;

@@ -19,7 +19,7 @@ export default function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 h-full flex flex-col py-6 z-50 w-64 bg-white/65 backdrop-blur-[30px] border-r border-white/20 shadow-[4px_0_24px_rgba(0,0,0,0.03)] hidden md:flex">
       <div className="px-6 mb-8 mt-12">
-        <h2 className="text-lg font-black text-[#8B93FF] font-jakarta">BrainOS</h2>
+        <h2 className="text-lg font-black text-[#8B93FF] font-jakarta">Brainiac</h2>
         <p className="text-xs text-slate-500">External Cortex</p>
       </div>
       <nav className="flex-1 px-3 space-y-1">

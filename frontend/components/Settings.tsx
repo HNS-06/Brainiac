@@ -1,15 +1,15 @@
 'use client'
 
-import Sidebar from './Sidebar'
-import TopNavBar from './TopNavBar'
+
+
+import { useAuth } from '../context/AuthContext'
 
 export default function Settings() {
-  return (
-    <div className="min-h-screen bg-background">
-      <TopNavBar />
-      <Sidebar />
+  const { user } = useAuth()
 
-      <main className="md:ml-64 pt-24 px-8 pb-12">
+  return (
+    <div className="w-full">
+      <main className="pt-8">
         <header className="mb-10">
           <h1 className="text-4xl font-extrabold text-on-surface mb-2 tracking-tight">Privacy & Settings</h1>
           <p className="text-lg text-on-surface-variant max-w-2xl">Configure your external cortex and manage your data footprints.</p>
@@ -40,8 +40,8 @@ export default function Settings() {
                     <span className="material-symbols-outlined text-4xl">account_circle</span>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-on-surface">Alex Chen</h3>
-                    <p className="text-sm text-on-surface-variant">Chief Cognitive Architect • Joined Oct 2023</p>
+                    <h3 className="text-xl font-bold text-on-surface">{user?.displayName || user?.email || 'User'}</h3>
+                    <p className="text-sm text-on-surface-variant">Cognitive User • Active</p>
                   </div>
                 </div>
                 <button className="neumorphic-card px-6 py-2 rounded-xl text-primary font-bold text-sm">Edit Profile</button>
@@ -50,13 +50,13 @@ export default function Settings() {
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-on-surface-variant block ml-2">Display Name</label>
                   <div className="neumorphic-inset p-4 rounded-2xl">
-                    <span className="text-on-surface font-medium">Alex Chen</span>
+                    <span className="text-on-surface font-medium">{user?.displayName || user?.email || 'User'}</span>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-on-surface-variant block ml-2">Cortex ID</label>
                   <div className="neumorphic-inset p-4 rounded-2xl">
-                    <span className="text-on-surface font-medium">BRAIN-8892-X</span>
+                    <span className="text-on-surface font-medium break-all">{user?.uid || 'BRAIN-GUEST'}</span>
                   </div>
                 </div>
               </div>
@@ -82,7 +82,6 @@ export default function Settings() {
             </section>
           </div>
         </div>
-      </main>
     </div>
   )
 }

@@ -39,12 +39,15 @@ const documentRoutes = require('./routes/documents');
 const ragRoutes = require('./routes/rag');
 const agentRoutes = require('./routes/agents');
 const insightRoutes = require('./routes/insights');
+const dashboardRoutes = require('./routes/dashboard');
+const historyRoutes = require('./routes/history');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/rag', ragRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/insights', insightRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Error Handling
 app.use((err, req, res, next) => {

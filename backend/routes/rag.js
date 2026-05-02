@@ -8,7 +8,7 @@ const { aiLimiter } = require('../middlewares/rateLimiter');
  * SSE Endpoint for streaming chat
  */
 router.get('/stream', verifyAuth, aiLimiter, async (req, res) => {
-  const { query } = req.query;
+  const { query, mode = 'Quick' } = req.query;
   const userId = req.user.uid;
 
   if (!query) return res.status(400).json({ error: 'Query is required' });
@@ -20,16 +20,37 @@ router.get('/stream', verifyAuth, aiLimiter, async (req, res) => {
   res.flushHeaders();
 
   try {
-    const { stream, sources } = await performStreamingRAG(query, userId);
+    const { stream, sources } = await performStreamingRAG(query, userId, mode);
 
     // Send sources first
     res.write(`data: ${JSON.stringify({ type: 'sources', sources })}\n\n`);
 
     // Stream chunks
+    let fullText = '';
     for await (const chunk of stream) {
-      const chunkText = chunk.text();
-      res.write(`data: ${JSON.stringify({ type: 'chunk', text: chunkText })}\n\n`);
+      const chunkText = chunk.choices[0]?.delta?.content || '';
+      if (chunkText) {
+        fullText += chunkText;
+        res.write(`data: ${JSON.stringify({ type: 'chunk', text: chunkText })}\n\n`);
+      }
     }
+
+    // Persist to history after stream finishes
+    const { db } = require('../utils/firebase');
+    await db.collection('history').add({
+      userId,
+      type: 'CHAT',
+      title: `Queried: "${query.substring(0, 40)}${query.length > 40 ? '...' : ''}"`,
+      timestamp: new Date().toISOString(),
+      details: { query, response: fullText }
+    });
+
+    await db.collection('chats').add({
+      userId,
+      query,
+      response: fullText,
+      timestamp: new Date().toISOString()
+    });
 
     res.write('data: [DONE]\n\n');
     res.end();

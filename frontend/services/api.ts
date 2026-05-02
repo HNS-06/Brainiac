@@ -25,9 +25,7 @@ api.interceptors.request.use(async (config) => {
 });
 
 export const documentApi = {
-  upload: (formData: FormData) => api.post('/documents/upload', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  }),
+  upload: (formData: FormData) => api.post('/documents/upload', formData),
   list: () => api.get('/documents'),
   delete: (id: string) => api.delete(`/documents/${id}`),
 };
@@ -46,6 +44,10 @@ export const agentApi = {
 
 export const insightApi = {
   getLatest: () => api.get('/insights'),
+};
+
+export const dashboardApi = {
+  getMetrics: () => api.get('/dashboard'),
 };
 
 export default api;

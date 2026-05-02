@@ -8,20 +8,25 @@ const { verifyAuth } = require('../middlewares/authMiddleware');
 const upload = multer({ storage: multer.memoryStorage() });
 
 /**
- * Upload and process document
+ * Upload and process multiple documents
  */
-router.post('/upload', verifyAuth, upload.single('file'), async (req, res) => {
+router.post('/upload', verifyAuth, upload.array('files'), async (req, res) => {
   try {
-    const file = req.file;
-    if (!file) return res.status(400).json({ error: 'No file uploaded' });
+    const files = req.files;
+    if (!files || files.length === 0) return res.status(400).json({ error: 'No files uploaded' });
 
     const userId = req.user.uid;
-    const docId = await processDocument(file, userId);
+    const documentIds = [];
+
+    for (const file of files) {
+      const docId = await processDocument(file, userId);
+      documentIds.push(docId);
+    }
     
-    res.json({ message: 'Document processed and indexed', documentId: docId });
+    res.json({ message: 'Documents processed and indexed', documentIds });
   } catch (error) {
     console.error('Upload route error:', error);
-    res.status(500).json({ error: 'Failed to process document' });
+    res.status(500).json({ error: 'Failed to process documents' });
   }
 });
 

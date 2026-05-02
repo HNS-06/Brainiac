@@ -17,30 +17,33 @@ export default function KnowledgeLibrary() {
   const [documents, setDocuments] = useState<Document[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const fetchDocs = async () => {
-      try {
-        const res = await documentApi.list()
-        setDocuments(res.data)
-      } catch (err) {
-        console.error('Failed to fetch docs', err)
-      } finally {
-        setLoading(false)
-      }
+  const fetchDocs = async () => {
+    try {
+      const res = await documentApi.list()
+      setDocuments(res.data)
+    } catch (err) {
+      console.error('Failed to fetch docs', err)
+    } finally {
+      setLoading(false)
     }
+  }
+
+  useEffect(() => {
     fetchDocs()
   }, [])
 
-  return (
-    <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 w-full z-40 flex justify-between items-center px-6 h-16 bg-white/65 backdrop-blur-[20px] border-b border-white/20 shadow-[0_8px_16px_rgba(0,0,0,0.05)] md:pl-64">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="text-xl font-bold text-[#8B93FF] tracking-tight font-jakarta">BrainOS</Link>
-        </div>
-      </header>
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this document?')) return
+    try {
+      await documentApi.delete(id)
+      fetchDocs()
+    } catch (err) {
+      console.error('Delete failed', err)
+    }
+  }
 
-      <main className="md:ml-64 pt-24 px-8 pb-12">
-        <div className="max-w-7xl mx-auto">
+  return (
+    <div className="max-w-7xl mx-auto w-full">
           <div className="flex justify-between items-end mb-10">
             <div>
               <h1 className="text-4xl font-extrabold text-on-background mb-2 tracking-tight">Resource Library</h1>
@@ -60,7 +63,13 @@ export default function KnowledgeLibrary() {
                 <div key={i} className="neumorphic-flat h-48 rounded-[32px] animate-pulse"></div>
               ))
             ) : documents.map((doc) => (
-              <div key={doc.id} className="neumorphic-flat p-6 rounded-[32px] group hover:-translate-y-1 transition-all duration-300">
+              <div key={doc.id} className="neumorphic-flat p-6 rounded-[32px] group hover:-translate-y-1 transition-all duration-300 relative">
+                <button 
+                  onClick={() => handleDelete(doc.id)}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-red-50 text-red-400 opacity-0 group-hover:opacity-100 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                >
+                  <span className="material-symbols-outlined text-lg">delete</span>
+                </button>
                 <div className="flex justify-between items-start mb-4">
                   <div className="bg-primary/10 p-2 rounded-xl text-primary">
                     <span className="material-symbols-outlined">{doc.type.includes('pdf') ? 'picture_as_pdf' : 'description'}</span>
@@ -81,8 +90,6 @@ export default function KnowledgeLibrary() {
               </div>
             ))}
           </div>
-        </div>
-      </main>
     </div>
   )
 }

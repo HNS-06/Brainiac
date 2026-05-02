@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Sidebar from './Sidebar'
-import TopNavBar from './TopNavBar'
 import { agentApi } from '../services/api'
 
 interface Agent {
@@ -37,11 +35,7 @@ export default function AIAgentsDashboard() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-background">
-      <TopNavBar />
-      <Sidebar />
-
-      <main className="pt-24 pb-12 pl-6 md:pl-72 pr-6 max-w-[1600px] mx-auto">
+    <div className="max-w-[1600px] mx-auto w-full">
         <header className="mb-6">
           <h1 className="text-4xl font-extrabold text-on-surface leading-tight tracking-tight">AI Hub</h1>
           <p className="text-lg text-outline mt-2">Manage your external cortex agents and monitors.</p>
@@ -91,7 +85,6 @@ export default function AIAgentsDashboard() {
             </div>
           </div>
         </div>
-      </main>
     </div>
   )
 }

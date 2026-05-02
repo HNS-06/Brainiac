@@ -21,7 +21,23 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
       if (mode === 'login') {
         await signInWithEmailAndPassword(auth, email, password)
       } else {
-        await createUserWithEmailAndPassword(auth, email, password)
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        
+        // Generate Cortex ID (e.g., BRAIN-123456)
+        const cortexId = `BRAIN-${Math.floor(100000 + Math.random() * 900000)}`
+        
+        // Initialize user profile in Firestore
+        const { db } = await import('../services/firebase')
+        const { doc, setDoc } = await import('firebase/firestore')
+        
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          email: user.email,
+          cortexId: cortexId,
+          createdAt: new Date().toISOString(),
+          displayName: email.split('@')[0]
+        })
       }
       router.push('/')
     } catch (err: any) {
@@ -39,7 +55,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold text-[#8B93FF] tracking-tight font-jakarta mb-2">BrainOS</h1>
+          <h1 className="text-4xl font-extrabold text-[#8B93FF] tracking-tight font-jakarta mb-2">Brainiac</h1>
           <p className="text-slate-500 font-medium">{mode === 'login' ? 'Welcome back to your external brain' : 'Initialize your cognitive extension'}</p>
         </div>
 
@@ -94,23 +110,28 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
             </div>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
-            className="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+            className="w-full py-4 rounded-2xl bg-[#8B93FF] text-white font-bold text-lg shadow-[0_8px_20px_rgba(139,147,255,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100"
           >
-            {loading ? 'Processing...' : (mode === 'login' ? 'Synchronize' : 'Initialize')}
+            {loading ? 'Processing...' : mode === 'login' ? 'Login' : 'Create Account'}
+          </button>
+        </form>
+
+        <div className="mt-8 text-center space-y-4">
+          <button 
+            onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
+            className="text-slate-500 font-medium hover:text-[#8B93FF] transition-colors"
+          >
+            {mode === 'login' ? "Don't have a brain yet? Sign up" : "Already have a brain? Log in"}
           </button>
 
-          <div className="text-center pt-4">
-            <Link 
-              href={mode === 'login' ? '/signup' : '/login'} 
-              className="text-sm font-bold text-primary hover:underline"
-            >
-              {mode === 'login' ? "Don't have a brain yet? Create one" : 'Already have a brain? Sign in'}
-            </Link>
+          <div className="pt-6 border-t border-slate-100">
+            <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-2">Enterprise Access</p>
+            <p className="text-xs text-slate-500">You can also use your <span className="text-[#8B93FF] font-bold">Cortex ID</span> to synchronize across devices.</p>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   )

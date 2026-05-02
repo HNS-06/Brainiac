@@ -4,21 +4,24 @@ import { useState } from 'react'
 import { documentApi } from '../services/api'
 
 export default function UploadModal({ isOpen, onClose, onUploadSuccess }: { isOpen: boolean, onClose: () => void, onUploadSuccess: () => void }) {
-  const [file, setFile] = useState<File | null>(null)
+  const [files, setFiles] = useState<File[]>([])
   const [uploading, setUploading] = useState(false)
 
   if (!isOpen) return null
 
   const handleUpload = async () => {
-    if (!file) return
+    if (files.length === 0) return
     setUploading(true)
     const formData = new FormData()
-    formData.append('file', file)
+    files.forEach(file => {
+      formData.append('files', file)
+    })
     
     try {
       await documentApi.upload(formData)
       onUploadSuccess()
       onClose()
+      setFiles([])
     } catch (error) {
       console.error('Upload failed', error)
     } finally {
@@ -39,21 +42,29 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }: { isOp
             type="file" 
             id="fileInput" 
             className="hidden" 
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
+            multiple
+            onChange={(e) => setFiles(Array.from(e.target.files || []))}
           />
           <span className="material-symbols-outlined text-4xl text-slate-400 mb-2">upload_file</span>
-          <p className="text-sm text-slate-500">{file ? file.name : 'Click to select PDF or Text file'}</p>
+          <p className="text-sm text-slate-500 text-center">
+            {files.length > 0 ? `${files.length} files selected` : 'Click to select PDF or Text files'}
+          </p>
+          {files.length > 0 && (
+            <div className="mt-2 text-[10px] text-slate-400 max-h-20 overflow-y-auto w-full text-center">
+              {files.map(f => f.name).join(', ')}
+            </div>
+          )}
         </div>
 
         <div className="flex gap-4">
           <button 
-            onClick={onClose}
+            onClick={() => { onClose(); setFiles([]); }}
             className="flex-1 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
           >
             Cancel
           </button>
           <button 
-            disabled={!file || uploading}
+            disabled={files.length === 0 || uploading}
             onClick={handleUpload}
             className="flex-1 py-3 rounded-xl font-bold bg-primary text-white shadow-lg hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
           >

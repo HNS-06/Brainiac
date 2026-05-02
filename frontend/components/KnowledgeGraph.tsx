@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Sidebar from './Sidebar'
-import TopNavBar from './TopNavBar'
 import { documentApi } from '../services/api'
 
 interface Node {
@@ -42,11 +40,7 @@ export default function KnowledgeGraph() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5]">
-      <TopNavBar />
-      <Sidebar />
-
-      <main className="md:ml-64 pt-16 h-[calc(100vh-64px)] relative overflow-hidden">
+    <div className="h-[calc(100vh-120px)] relative overflow-hidden -mx-6 -mt-6 rounded-3xl bg-[#F0F2F5]">
         {/* Graph Canvas */}
         <div className="absolute inset-0 z-0">
           <svg className="w-full h-full">
@@ -122,7 +116,6 @@ export default function KnowledgeGraph() {
             </button>
           </div>
         </div>
-      </main>
     </div>
   )
 }
